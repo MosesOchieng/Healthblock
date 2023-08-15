@@ -21,8 +21,8 @@
 
 	<!-- Main Stylesheet -->
 	<link rel="stylesheet" href="css/style.css">
-
 	
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body id="top">
@@ -122,7 +122,7 @@
 
 						<p class="mb-4 pr-5">We offer Insurance covers to users through Digital currencies.</p>
 						<div class="btn-container ">
-							<a  target="_blank" class="btn btn-main-2 btn-icon btn-round-full">Be our
+							<a  target="_blank" class="btn btn-main-2 btn-icon btn-round-full" id="startLoading">Be our
 								Number 1 Customer <i class="icofont-simple-right ml-2  "></i></a>
 						</div>
 					</div>
@@ -526,7 +526,37 @@
 
 
 
-
+<section>
+	<div id="loaderContainer" style="display: none;">
+	 
+		<div class='container'>
+			<div class='loader'>
+				<div class='loader'>
+					<div class='loader--dot'></div>
+					<div class='loader--dot'></div>
+					<div class='loader--dot'></div>
+					<div class='loader--dot'></div>
+					<div class='loader--dot'></div>
+					<div class='loader--dot'></div>
+					<div class='loader--text'></div>
+				  </div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		document.getElementById("startLoading").addEventListener("click", function() {
+			// Show the loader container
+			document.getElementById("loaderContainer").style.display = "block";
+		
+			// Set a timeout to redirect after a certain duration (e.g., 5 seconds)
+			setTimeout(function() {
+				// Redirect to the desired page
+				window.location.href = 'Log/log.html';
+			}, 5000); // 5000 milliseconds = 5 seconds
+		});
+		
+	</script></section>
 	<!-- 
     Essential Scripts
     =====================================-->
