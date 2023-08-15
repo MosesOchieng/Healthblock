@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fractional Settlement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        /* Styling for the pop-up container */
+        .popup-container {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        /* Styling for the overlay background */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 900;
+        }
+
+        /* Styling for form inputs */
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Styling for buttons */
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Styling for result section */
+        #result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fractional Settlement</h1>
+    
+    <!-- Button to open the Process Claim Popup -->
+    <button id="openProcessClaimPopupButton">Open Process Claim Popup</button>
+
+    <!-- Overlay background -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Process Claim Popup Container -->
+    <div class="popup-container" id="processClaimPopup">
+        <h2>Process Claim</h2>
+        <label for="claimId">Claim ID:</label>
+        <input type="number" id="claimId" required><br>
+        <label for="participants">Participants:</label>
+        <input type="text" id="participants" required><br>
+        <label for="premiumContributions">Premium Contributions:</label>
+        <input type="text" id="premiumContributions" required><br>
+        <button id="processClaimButton">Process Claim</button>
+        <button id="closeProcessClaimPopupButton">Close</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const processClaimPopup = document.getElementById("processClaimPopup");
+            const claimIdInput = document.getElementById("claimId");
+            const participantsInput = document.getElementById("participants");
+            const premiumContributionsInput = document.getElementById("premiumContributions");
+            const processClaimButton = document.getElementById("processClaimButton");
+            const closeProcessClaimPopupButton = document.getElementById("closeProcessClaimPopupButton");
+            const overlay = document.getElementById("overlay");
+            const result = document.getElementById("result");
+
+            // Function to open the Process Claim Popup
+            const openProcessClaimPopup = () => {
+                processClaimPopup.style.display = "block";
+                overlay.style.display = "block";
+            };
+
+            // Function to close the Process Claim Popup
+            const closeProcessClaimPopup = () => {
+                processClaimPopup.style.display = "none";
+                overlay.style.display = "none";
+            };
+
+            processClaimButton.addEventListener("click", async () => {
+                const claimId = parseInt(claimIdInput.value);
+                const participants = participantsInput.value.split(",");
+                const premiumContributions = premiumContributionsInput.value.split(",").map(value => parseInt(value));
+
+                // TODO: Implement contract interaction to process claim
+                // Display result
+                result.innerHTML = `Claim processed for ID ${claimId}.`;
+
+                closeProcessClaimPopup();
+            });
+
+            closeProcessClaimPopupButton.addEventListener("click", () => {
+                closeProcessClaimPopup();
+            });
+
+            const openProcessClaimPopupButton = document.getElementById("openProcessClaimPopupButton");
+            openProcessClaimPopupButton.addEventListener("click", () => {
+                openProcessClaimPopup();
+            });
+        });
+    </script>
+</body>
+</html>
+

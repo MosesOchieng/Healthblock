@@ -1,11 +1,4 @@
-<style>
-		.container {
-			height: 100vh;
-			width: 80vw;
-		  font-family:'cairo',serif;
-		  }
-		  
-		  .loader {
+	  .loader {
 			height: 20px;
 			width: 250px;
 			position: absolute;
