@@ -16,7 +16,8 @@ contract ENSNameAllocation {
 
     constructor(address _ensAddress, address _spruceIDAddress) {
         ens = ENS(_ensAddress);
-        spruceIDAddress = _spruceIDAddress;
+        spruceIDAdd
+        ress = _spruceIDAddress;
     }
 
     // Function to allocate an ENS name to an authenticated user
