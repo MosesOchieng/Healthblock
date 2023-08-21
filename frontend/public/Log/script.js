@@ -47,7 +47,7 @@ document.getElementById("verifyBtn").addEventListener("click", async () => {
 			"type": "function"
 		}
 	]];
-    const spruceIDAddress = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"; // your SpruceID contract address here
+    const spruceIDAddress = "0xf8e81D47203A594245E36C48e151709F0C19fBe8"; // your SpruceID contract address here
 
     try {
         // Connect to the SpruceID contract
