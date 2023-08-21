@@ -53,7 +53,7 @@ document.getElementById("verifyBtn").addEventListener("click", async () => {
 		]
         // ... (your SpruceID ABI here)
     ;
-    const spruceIDAddress = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"; // your SpruceID contract address here
+    const spruceIDAddress = "0xD7ACd2a9FD159E69Bb102A1ca21C9a3e3A5F771B"; // your SpruceID contract address here
 
     try {
         // Connect to the SpruceID contract
