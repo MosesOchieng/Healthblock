@@ -5,6 +5,132 @@
   <title>Dashboard</title>
   <link rel="stylesheet" href="./style.css">
 <style>
+/* Global Variables */
+:root {
+    --color1: #eee;
+    --color2: #fff;
+    --color3: #00cc0e;
+    --color3Hover: #008e09;
+    --color4: #00dbff;
+    --color4Hover: #0099b2;
+    --color5: #b12bff;
+    --color5Hover: #8300d0;
+    --color6: #2c3233;
+    --color7: #a2b1ba;
+}
+
+/* Reset Default Settings */
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.container1 {
+    /* Flex */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container__card {
+    background-color: var(--color2);
+    width: 320px;
+    height: 520px;
+    text-align: center;
+    transition: transform 0.3s;
+
+    /* Flex */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container__card:not(.container__card:last-of-type) {
+    margin-right: 35px;
+}
+
+.container__card:hover {
+    transform: translateY(-15px);
+}
+
+.container__cardSvgs {
+    width: 100%;
+    height: 240px;
+    position: relative;
+
+    /* Flex */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container__cardSvg1 {
+    /* Position */
+    position: absolute;
+    left: 41px;
+    bottom: 38px;
+}
+
+.container__cardSvg2 {
+    /* Position */
+    position: absolute;
+    right: 36px;
+    top: 40px;
+}
+
+.container__cardSvg3 {
+    position: absolute;
+}
+
+.container__cardContent {
+    padding: 35px;
+}
+
+.container__cardName {
+    color: var(--color6);
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+
+.container__cardPrice {
+    color: var(--color4);
+    margin: 20px 0;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.container__cardDesc {
+    color: var(--color7);
+    padding: 0 30px;
+    margin-bottom: 40px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 1.6;
+}
+
+.container__cardLink {
+    color: var(--color2);
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 700;
+
+    /* Text */
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.container__cardLink:hover {
+    background-color: var(--color3Hover) !important;
+}
+
+.container__card:nth-of-type(2) .container__cardLink:hover {
+    background-color: var(--color4Hover) !important;
+}
+
+.container__card:nth-of-type(3) .container__cardLink:hover {
+    background-color: var(--color5Hover) !important;
+}
     .container {
         width: 60%;
         max-width: 200px;
@@ -56,7 +182,18 @@
         margin-top: 10px;
     }
     
-    
+    .popup1 {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+    } 
 </style>
 
 </head>
@@ -110,14 +247,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" >
+                        <a class="nav-link" href="#" id="showPopup">
                             <i class="bi bi-bar-chart" ></i> Claim Insurance
                         </a>
                     </li>
             
                     <li class="nav-item">
                         <a class="nav-link" href="#" >
-                            <i class="bi bi-chat"></i>NFT insurance
+                            <i class="bi bi-chat"></i>Fractional Insurance
                             <span class="badge bg-soft-primary text-primary rounded-pill d-inline-flex align-items-center ms-auto">6</span>
                         </a>
                     </li>
@@ -133,8 +270,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" id="openProcessClaimPopupButton">
-                            <i class="bi bi-people"></i> Fractional Insurance
+                            <i class="bi bi-people"></i> Community Insurance
                     </li>
+               
                 </ul>
    
 
@@ -172,7 +310,7 @@
                             <div class="mx-n1">
                                 <a href="#" class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
                                     <span class=" pe-2">
-                                        <i class="bi bi-pencil"></i>
+                                        <i class="bi bi-plus"></i>
                                     </span>
                                     <span>Payments</span>
                                 </a>
@@ -180,7 +318,7 @@
                                     <span class=" pe-2">
                                         <i class="bi bi-plus"></i>
                                     </span>
-                                    <span>Stake Digital Currencies.</span>
+                                    <span>Stake .</span>
                                 </a>
                             </div>
                         </div>
@@ -300,22 +438,135 @@
                 </div>
                 <div class="card shadow border-0 mb-7">
                     <div class="card-header">
-                        <h5 class="mb-0">Results</h5>
+                        <h5 class="mb-0">Premium Packages</h5>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-nowrap">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Insurance type</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Status</th>
+                                  
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                        
+                                <div class='container1'>
+                                    <!-- Card 1 -->
+                                    <div class='container__card'  id="packages">
+                                      <div class='container__cardSvgs' style='background-color: var(--color3)'>
+                                        <svg class='container__cardSvg1' version='1.2' baseProfile='tiny-ps' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 681 446' width='226' height='148'>
+                                          <g id='Left Table'>
+                                            <g id='&lt;Group&gt;'>
+                                              <path id='&lt;Compound Path&gt;' fill-rule='evenodd' style='fill: #ffffff' d='M545.63 445.16L478.15 445.16C478.09 445.12 478.02 445.1 477.96 445.1C477.9 445.1 477.85 445.11 477.8 445.12C477.62 445.14 477.44 445.16 477.26 445.16C468.28 445.16 460.98 437.85 460.98 428.87C460.98 419.89 468.28 412.58 477.26 412.58C477.45 412.58 477.63 412.6 477.82 412.63L478.17 412.68L483.17 412.58L485.06 412.58C493.55 412.28 500.2 405.42 500.2 396.96C500.2 388.3 493.16 381.26 484.5 381.26L448.81 381.24C422.64 393.35 394.57 399.5 365.52 399.5C255.5 399.5 166.01 309.99 166.01 199.98C166.01 196.73 166.08 193.47 166.24 190.25L43.55 190.25L43.26 190.22C43.11 190.23 42.95 190.25 42.78 190.25C34.95 190.25 28.58 183.88 28.58 176.05C28.58 168.21 34.95 161.84 42.78 161.84C42.95 161.84 43.11 161.86 43.26 161.88L43.57 161.92L47.93 161.84L49.58 161.84C56.93 161.58 62.7 155.62 62.7 148.28C62.7 140.78 56.59 134.68 49.09 134.68L15.23 134.66C15.08 134.65 14.97 134.65 14.87 134.65C14.68 134.65 14.57 134.66 14.45 134.66C6.62 134.66 0.25 128.29 0.25 120.46C0.25 112.62 6.62 106.25 14.45 106.25C14.62 106.25 14.77 106.27 14.93 106.29L15.24 106.33L142.2 106.25C149.74 106.75 155.63 112.96 155.63 120.46C155.63 127.96 149.74 134.16 142.21 134.58L129.3 134.66C129.15 134.68 129.04 134.68 128.95 134.68C128.84 134.68 128.75 134.67 128.68 134.65L128 134.68C120.57 134.68 114.8 140.66 114.8 148.28C114.8 155.62 120.57 161.58 127.93 161.84L169.68 161.84C187.8 68.31 270.12 0.46 365.52 0.46C475.53 0.46 565.03 89.96 565.03 199.98C565.03 229.5 558.71 257.94 546.24 284.54L569.98 284.54C578.85 284.67 586.06 291.96 586.06 300.82C586.06 309.67 578.85 316.97 569.99 317.09L551.54 317.12C542.94 317.12 535.9 324.16 535.9 332.82C535.9 341.29 542.54 348.16 551.03 348.46L576.26 348.46C576.34 348.44 576.46 348.42 576.6 348.42L665.58 348.46C674.06 349.21 680.68 356.31 680.68 364.74C680.68 373.17 674.06 380.28 665.6 380.91L631.18 381.03L630.91 381.07C630.33 381.15 629.75 381.23 629.14 381.23L546.54 381.24C537.95 381.26 530.91 388.3 530.91 396.96C530.91 405.6 537.95 412.64 546.6 412.64L546.62 412.77C554.87 413.72 561.04 420.57 561.04 428.87C561.04 437.48 554.28 444.59 545.65 445.07L545.63 445.07L545.63 445.16ZM365.52 9.49C314.64 9.49 266.81 29.31 230.83 65.29C194.85 101.27 175.03 149.1 175.03 199.98C175.03 250.85 194.85 298.69 230.83 334.67C266.81 370.65 314.65 390.46 365.52 390.46C416.39 390.46 464.23 370.65 500.2 334.67C536.18 298.68 556 250.84 556 199.98C556 149.11 536.18 101.28 500.2 65.29C464.23 29.31 416.4 9.49 365.52 9.49Z' />
+                                            </g>
+                                          </g>
+                                        </svg>
+                                        <svg class='container__cardSvg2' version='1.2' baseProfile='tiny-ps' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 44' width='38' height='15'>
+                                          <g id='Left Table'>
+                                            <g id='&lt;Group&gt;'>
+                                              <path id='&lt;Compound Path&gt;' fill-rule='evenodd' style='fill: #ffffff' d='M111.85 36.26C111.85 40 108.95 43.02 105.29 43.29L105.29 43.35L22.21 43.35L22.21 43.31C22.08 43.32 21.96 43.35 21.82 43.35C17.9 43.35 14.73 40.18 14.73 36.26C14.73 32.35 17.9 29.17 21.82 29.17C21.96 29.17 22.08 29.21 22.21 29.22L22.21 29.17L24.44 29.17L24.44 29.14C24.55 29.15 24.67 29.16 24.79 29.17L25.28 29.17C29.08 29.04 32.12 25.94 32.12 22.12C32.12 18.2 28.94 15.03 25.03 15.03L25.07 15.02L7.78 15.02L7.78 14.98C7.65 14.99 7.52 15.02 7.38 15.02C3.47 15.02 0.3 11.85 0.3 7.93C0.3 4.02 3.47 0.85 7.38 0.85C7.52 0.85 7.65 0.88 7.78 0.88L7.78 0.85L89.14 0.85L89.14 0.85C93.03 0.87 96.19 4.03 96.19 7.93C96.19 11.83 93.03 15 89.14 15.01L89.14 15.02L80.99 15.02L81.04 15.03C77.12 15.03 73.95 18.2 73.95 22.12C73.95 25.94 76.99 29.04 80.79 29.17L105.29 29.17L105.29 29.23C108.95 29.5 111.85 32.53 111.85 36.26ZM24.44 15.03L25.03 15.03C24.83 15.03 24.64 15.07 24.44 15.09L24.44 15.03Z' />
+                                            </g>
+                                          </g>
+                                        </svg>
+                                        <svg class='container__cardSvg3' style='margin-left: 10px' version='1.2' baseProfile='tiny-ps' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 143 144' width='47' height='48'>
+                                          <g id='Left Table'>
+                                            <g id='&lt;Group&gt;'>
+                                              <g id='&lt;Group&gt;'>
+                                                <g id='&lt;Group&gt;'>
+                                                  <path id='&lt;Compound Path&gt;' fill-rule='evenodd' style='fill: #2c3233' d='M50.07 98.5L45.01 93.44L117.77 20.67L105.71 8.62C104.99 7.9 104.05 7.53 103.07 7.53C102.1 7.53 101.17 7.9 100.45 8.62L23.73 85.34L18.67 80.28L95.38 3.56C97.5 1.43 100.3 0.38 103.07 0.38C105.85 0.38 108.65 1.43 110.77 3.56L139.94 32.73C142.06 34.84 143.12 37.64 143.12 40.42C143.12 43.18 142.06 45.99 139.95 48.11L63.22 124.83L58.16 119.78L134.89 43.05L134.88 43.05C135.6 42.33 135.97 41.39 135.97 40.42C135.97 39.44 135.6 38.5 134.89 37.79L122.84 25.73L50.07 98.5ZM43.57 129.31C45.03 130.79 46.19 132.54 46.22 134.87C46.27 136.68 45.22 138.54 43.84 139.5C42.46 140.51 40.92 140.92 39.28 141.07L10.26 143.56C9.98 143.58 9.7 143.58 9.42 143.58L9.4 143.58C6.82 143.58 4.38 142.59 2.65 140.85C0.89 139.12 -0.11 136.67 -0.09 134.08C-0.09 133.75 -0.08 133.43 -0.05 133.13L-0.04 133.14L2.43 104.23C2.58 102.58 2.99 101.04 3.99 99.67C4.95 98.28 6.82 97.23 8.64 97.28C10.96 97.32 12.71 98.48 14.19 99.93L43.57 129.31ZM38.13 133.99L9.51 105.37L7.08 133.78L7.04 133.78C7.05 133.96 7.06 134.06 7.06 134.08C7.17 135.66 7.84 136.33 9.42 136.43C9.54 136.43 9.65 136.42 9.72 136.42L38.13 133.99Z' />
+                                                </g>
+                                              </g>
+                                            </g>
+                                          </g>
+                                        </svg>
+                                      </div>
+                                      <div class='container__cardContent'>
+                                        <h3 class='container__cardName'>Basic Package</h3>
+                                        <p class='container__cardPrice'>0.1 ETH per month.</p>
+                                        <p class='container__cardDesc'>    Coverage: Essential medical services and consultations.
+                                          
+                                            Features: Basic health check-ups, doctor consultations, and limited coverage for common medical procedures..</p>
+                                        <a href='#emptyLink' class='container__cardLink' style='background-color: var(--color3)'>GET STARTED</a>
+                                      </div>
+                                    </div>
+                                  
+                                    <!-- Card 2 -->
+                                    <div class='container__card'>
+                                      <div class='container__cardSvgs' style='background-color: var(--color4)'>
+                                        <svg class='container__cardSvg1' version='1.2' baseProfile='tiny-ps' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 681 446' width='226' height='148'>
+                                          <g id='Left Table'>
+                                            <g id='&lt;Group&gt;'>
+                                              <path id='&lt;Compound Path&gt;' fill-rule='evenodd' style='fill: #ffffff' d='M545.63 445.16L478.15 445.16C478.09 445.12 478.02 445.1 477.96 445.1C477.9 445.1 477.85 445.11 477.8 445.12C477.62 445.14 477.44 445.16 477.26 445.16C468.28 445.16 460.98 437.85 460.98 428.87C460.98 419.89 468.28 412.58 477.26 412.58C477.45 412.58 477.63 412.6 477.82 412.63L478.17 412.68L483.17 412.58L485.06 412.58C493.55 412.28 500.2 405.42 500.2 396.96C500.2 388.3 493.16 381.26 484.5 381.26L448.81 381.24C422.64 393.35 394.57 399.5 365.52 399.5C255.5 399.5 166.01 309.99 166.01 199.98C166.01 196.73 166.08 193.47 166.24 190.25L43.55 190.25L43.26 190.22C43.11 190.23 42.95 190.25 42.78 190.25C34.95 190.25 28.58 183.88 28.58 176.05C28.58 168.21 34.95 161.84 42.78 161.84C42.95 161.84 43.11 161.86 43.26 161.88L43.57 161.92L47.93 161.84L49.58 161.84C56.93 161.58 62.7 155.62 62.7 148.28C62.7 140.78 56.59 134.68 49.09 134.68L15.23 134.66C15.08 134.65 14.97 134.65 14.87 134.65C14.68 134.65 14.57 134.66 14.45 134.66C6.62 134.66 0.25 128.29 0.25 120.46C0.25 112.62 6.62 106.25 14.45 106.25C14.62 106.25 14.77 106.27 14.93 106.29L15.24 106.33L142.2 106.25C149.74 106.75 155.63 112.96 155.63 120.46C155.63 127.96 149.74 134.16 142.21 134.58L129.3 134.66C129.15 134.68 129.04 134.68 128.95 134.68C128.84 134.68 128.75 134.67 128.68 134.65L128 134.68C120.57 134.68 114.8 140.66 114.8 148.28C114.8 155.62 120.57 161.58 127.93 161.84L169.68 161.84C187.8 68.31 270.12 0.46 365.52 0.46C475.53 0.46 565.03 89.96 565.03 199.98C565.03 229.5 558.71 257.94 546.24 284.54L569.98 284.54C578.85 284.67 586.06 291.96 586.06 300.82C586.06 309.67 578.85 316.97 569.99 317.09L551.54 317.12C542.94 317.12 535.9 324.16 535.9 332.82C535.9 341.29 542.54 348.16 551.03 348.46L576.26 348.46C576.34 348.44 576.46 348.42 576.6 348.42L665.58 348.46C674.06 349.21 680.68 356.31 680.68 364.74C680.68 373.17 674.06 380.28 665.6 380.91L631.18 381.03L630.91 381.07C630.33 381.15 629.75 381.23 629.14 381.23L546.54 381.24C537.95 381.26 530.91 388.3 530.91 396.96C530.91 405.6 537.95 412.64 546.6 412.64L546.62 412.77C554.87 413.72 561.04 420.57 561.04 428.87C561.04 437.48 554.28 444.59 545.65 445.07L545.63 445.07L545.63 445.16ZM365.52 9.49C314.64 9.49 266.81 29.31 230.83 65.29C194.85 101.27 175.03 149.1 175.03 199.98C175.03 250.85 194.85 298.69 230.83 334.67C266.81 370.65 314.65 390.46 365.52 390.46C416.39 390.46 464.23 370.65 500.2 334.67C536.18 298.68 556 250.84 556 199.98C556 149.11 536.18 101.28 500.2 65.29C464.23 29.31 416.4 9.49 365.52 9.49Z' />
+                                            </g>
+                                          </g>
+                                        </svg>
+                                        <svg class='container__cardSvg2' version='1.2' baseProfile='tiny-ps' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 44' width='38' height='15'>
+                                          <g id='Left Table'>
+                                            <g id='&lt;Group&gt;'>
+                                              <path id='&lt;Compound Path&gt;' fill-rule='evenodd' style='fill: #ffffff' d='M111.85 36.26C111.85 40 108.95 43.02 105.29 43.29L105.29 43.35L22.21 43.35L22.21 43.31C22.08 43.32 21.96 43.35 21.82 43.35C17.9 43.35 14.73 40.18 14.73 36.26C14.73 32.35 17.9 29.17 21.82 29.17C21.96 29.17 22.08 29.21 22.21 29.22L22.21 29.17L24.44 29.17L24.44 29.14C24.55 29.15 24.67 29.16 24.79 29.17L25.28 29.17C29.08 29.04 32.12 25.94 32.12 22.12C32.12 18.2 28.94 15.03 25.03 15.03L25.07 15.02L7.78 15.02L7.78 14.98C7.65 14.99 7.52 15.02 7.38 15.02C3.47 15.02 0.3 11.85 0.3 7.93C0.3 4.02 3.47 0.85 7.38 0.85C7.52 0.85 7.65 0.88 7.78 0.88L7.78 0.85L89.14 0.85L89.14 0.85C93.03 0.87 96.19 4.03 96.19 7.93C96.19 11.83 93.03 15 89.14 15.01L89.14 15.02L80.99 15.02L81.04 15.03C77.12 15.03 73.95 18.2 73.95 22.12C73.95 25.94 76.99 29.04 80.79 29.17L105.29 29.17L105.29 29.23C108.95 29.5 111.85 32.53 111.85 36.26ZM24.44 15.03L25.03 15.03C24.83 15.03 24.64 15.07 24.44 15.09L24.44 15.03Z' />
+                                            </g>
+                                          </g>
+                                        </svg>
+                                        <svg class='container__cardSvg3' version='1.2' baseProfile='tiny-ps' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 169 157' width='56' height='52'>
+                                          <g id='Middle Table'>
+                                            <g id='&lt;Group&gt;'>
+                                              <g id='&lt;Group&gt;'>
+                                                <g id='&lt;Group&gt;'>
+                                                  <path id='&lt;Compound Path&gt;' fill-rule='evenodd' style='fill: #2c3233' d='M168.97 66.47C168.97 66.6 168.97 66.73 168.97 66.82C168.97 66.92 168.97 67.05 168.97 67.22C168.97 68.16 168.85 69.05 168.67 69.8C167.62 74.03 164.82 77.44 160.81 80.39L160.81 131.7C160.79 145.38 149.65 156.52 135.97 156.54L33.71 156.54C20.02 156.52 8.89 145.38 8.87 131.7L8.87 80.39C4.85 77.45 2.04 74.03 0.99 69.82C0.81 69.05 0.69 68.16 0.69 67.22C0.69 67.07 0.69 66.94 0.7 66.84C0.69 66.74 0.69 66.61 0.69 66.47L0.69 46.79C0.7 35.85 8.35 26.32 18.77 26.22L52.7 26.22L52.7 11.08C52.71 4.92 57.69 -0.07 63.86 -0.08L105.82 -0.08C111.97 -0.07 116.95 4.92 116.97 11.08L116.97 26.22L150.9 26.22C161.32 26.32 168.97 35.85 168.99 46.79L168.97 66.47ZM59.7 26.22L109.96 26.22L109.96 11.08C109.96 8.82 108.08 6.94 105.82 6.94L63.86 6.94C61.59 6.94 59.72 8.82 59.71 11.08L59.7 26.22ZM153.03 84.91C151.66 85.55 150.26 86.18 148.76 86.79C142.6 89.23 135.22 91.26 126.98 92.85C120.4 94.12 113.27 95.09 105.72 95.74L105.72 103.21C105.71 108.05 101.8 111.97 96.96 111.97L72.7 111.97C67.86 111.97 63.96 108.05 63.94 103.21L63.94 95.74C46.91 94.29 31.97 91.17 20.91 86.79C19.43 86.19 18.02 85.56 16.66 84.93C16.42 84.81 16.12 84.69 15.88 84.58L15.88 131.7C15.91 141.48 23.92 149.5 33.71 149.53L135.97 149.53C145.75 149.5 153.76 141.48 153.78 131.7L153.78 84.58C153.55 84.69 153.27 84.8 153.03 84.91ZM70.95 103.21C70.95 104.14 71.76 104.96 72.7 104.96L96.96 104.96C97.89 104.96 98.71 104.14 98.71 103.21L98.71 85.97C98.71 85.03 97.89 84.22 96.96 84.22L72.7 84.22C71.76 84.22 70.95 85.03 70.95 85.97L70.95 103.21ZM18.77 33.24C13.15 33.25 7.7 38.96 7.7 46.79L7.7 66.26C7.7 66.33 7.71 66.46 7.73 66.63L7.73 66.81L7.73 66.99C7.71 67.18 7.7 67.3 7.7 67.37C7.71 67.62 7.76 67.92 7.83 68.3C8.2 70.7 11.2 73.99 16.63 77.06C16.98 77.26 17.34 77.44 17.72 77.64C18.18 77.88 18.64 78.12 19.13 78.35C19.6 78.58 20.07 78.81 20.57 79.04C21.51 79.45 22.46 79.87 23.48 80.26C31.44 83.43 42 85.96 54.12 87.6C57.29 88.03 60.56 88.4 63.94 88.69L63.94 85.97C63.96 81.12 67.86 77.21 72.7 77.2L96.96 77.2C101.8 77.21 105.71 81.12 105.72 85.97L105.72 88.69C109.88 88.33 113.9 87.87 117.74 87.3C128.93 85.66 138.7 83.23 146.18 80.26C147.19 79.87 148.13 79.47 149.03 79.06C149.58 78.81 150.12 78.56 150.63 78.3C151.06 78.1 151.46 77.89 151.86 77.68C152.27 77.47 152.68 77.26 153.07 77.04C158.47 73.97 161.47 70.69 161.83 68.28C161.91 67.9 161.95 67.59 161.96 67.33C161.95 67.24 161.94 67.07 161.94 66.82C161.94 66.61 161.95 66.46 161.96 66.35L161.96 46.79C161.95 38.96 156.51 33.25 150.9 33.24L18.77 33.24Z' />
+                                                </g>
+                                              </g>
+                                            </g>
+                                          </g>
+                                        </svg>
+                                      </div>
+                                      <div class='container__cardContent'>
+                                        <h3 class='container__cardName'>Standard Package:</h3>
+                                        <p class='container__cardPrice'>0.2 ETH per month.</p>
+                                        <p class='container__cardDesc'>    Coverage: Comprehensive medical services .
+                                       
+                                            Features: Basic Package, plus coverage for specialist consultations, diagnostic tests, and emergency medical care.</p>
+                                        <a href='#emptyLink' class='container__cardLink' style='background-color: var(--color4)'>GET STARTED</a>
+                                      </div>
+                                    </div>
+                                  
+                                    <!-- Card 3 -->
+                                    <div class='container__card'>
+                                      <div class='container__cardSvgs' style='background-color: var(--color5)'>
+                                        <svg class='container__cardSvg1' version='1.2' baseProfile='tiny-ps' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 681 446' width='226' height='148'>
+                                          <g id='Left Table'>
+                                            <g id='&lt;Group&gt;'>
+                                              <path id='&lt;Compound Path&gt;' fill-rule='evenodd' style='fill: #ffffff' d='M545.63 445.16L478.15 445.16C478.09 445.12 478.02 445.1 477.96 445.1C477.9 445.1 477.85 445.11 477.8 445.12C477.62 445.14 477.44 445.16 477.26 445.16C468.28 445.16 460.98 437.85 460.98 428.87C460.98 419.89 468.28 412.58 477.26 412.58C477.45 412.58 477.63 412.6 477.82 412.63L478.17 412.68L483.17 412.58L485.06 412.58C493.55 412.28 500.2 405.42 500.2 396.96C500.2 388.3 493.16 381.26 484.5 381.26L448.81 381.24C422.64 393.35 394.57 399.5 365.52 399.5C255.5 399.5 166.01 309.99 166.01 199.98C166.01 196.73 166.08 193.47 166.24 190.25L43.55 190.25L43.26 190.22C43.11 190.23 42.95 190.25 42.78 190.25C34.95 190.25 28.58 183.88 28.58 176.05C28.58 168.21 34.95 161.84 42.78 161.84C42.95 161.84 43.11 161.86 43.26 161.88L43.57 161.92L47.93 161.84L49.58 161.84C56.93 161.58 62.7 155.62 62.7 148.28C62.7 140.78 56.59 134.68 49.09 134.68L15.23 134.66C15.08 134.65 14.97 134.65 14.87 134.65C14.68 134.65 14.57 134.66 14.45 134.66C6.62 134.66 0.25 128.29 0.25 120.46C0.25 112.62 6.62 106.25 14.45 106.25C14.62 106.25 14.77 106.27 14.93 106.29L15.24 106.33L142.2 106.25C149.74 106.75 155.63 112.96 155.63 120.46C155.63 127.96 149.74 134.16 142.21 134.58L129.3 134.66C129.15 134.68 129.04 134.68 128.95 134.68C128.84 134.68 128.75 134.67 128.68 134.65L128 134.68C120.57 134.68 114.8 140.66 114.8 148.28C114.8 155.62 120.57 161.58 127.93 161.84L169.68 161.84C187.8 68.31 270.12 0.46 365.52 0.46C475.53 0.46 565.03 89.96 565.03 199.98C565.03 229.5 558.71 257.94 546.24 284.54L569.98 284.54C578.85 284.67 586.06 291.96 586.06 300.82C586.06 309.67 578.85 316.97 569.99 317.09L551.54 317.12C542.94 317.12 535.9 324.16 535.9 332.82C535.9 341.29 542.54 348.16 551.03 348.46L576.26 348.46C576.34 348.44 576.46 348.42 576.6 348.42L665.58 348.46C674.06 349.21 680.68 356.31 680.68 364.74C680.68 373.17 674.06 380.28 665.6 380.91L631.18 381.03L630.91 381.07C630.33 381.15 629.75 381.23 629.14 381.23L546.54 381.24C537.95 381.26 530.91 388.3 530.91 396.96C530.91 405.6 537.95 412.64 546.6 412.64L546.62 412.77C554.87 413.72 561.04 420.57 561.04 428.87C561.04 437.48 554.28 444.59 545.65 445.07L545.63 445.07L545.63 445.16ZM365.52 9.49C314.64 9.49 266.81 29.31 230.83 65.29C194.85 101.27 175.03 149.1 175.03 199.98C175.03 250.85 194.85 298.69 230.83 334.67C266.81 370.65 314.65 390.46 365.52 390.46C416.39 390.46 464.23 370.65 500.2 334.67C536.18 298.68 556 250.84 556 199.98C556 149.11 536.18 101.28 500.2 65.29C464.23 29.31 416.4 9.49 365.52 9.49Z' />
+                                            </g>
+                                          </g>
+                                        </svg>
+                                        <svg class='container__cardSvg2' version='1.2' baseProfile='tiny-ps' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 44' width='38' height='15'>
+                                          <g id='Left Table'>
+                                            <g id='&lt;Group&gt;'>
+                                              <path id='&lt;Compound Path&gt;' fill-rule='evenodd' style='fill: #ffffff' d='M111.85 36.26C111.85 40 108.95 43.02 105.29 43.29L105.29 43.35L22.21 43.35L22.21 43.31C22.08 43.32 21.96 43.35 21.82 43.35C17.9 43.35 14.73 40.18 14.73 36.26C14.73 32.35 17.9 29.17 21.82 29.17C21.96 29.17 22.08 29.21 22.21 29.22L22.21 29.17L24.44 29.17L24.44 29.14C24.55 29.15 24.67 29.16 24.79 29.17L25.28 29.17C29.08 29.04 32.12 25.94 32.12 22.12C32.12 18.2 28.94 15.03 25.03 15.03L25.07 15.02L7.78 15.02L7.78 14.98C7.65 14.99 7.52 15.02 7.38 15.02C3.47 15.02 0.3 11.85 0.3 7.93C0.3 4.02 3.47 0.85 7.38 0.85C7.52 0.85 7.65 0.88 7.78 0.88L7.78 0.85L89.14 0.85L89.14 0.85C93.03 0.87 96.19 4.03 96.19 7.93C96.19 11.83 93.03 15 89.14 15.01L89.14 15.02L80.99 15.02L81.04 15.03C77.12 15.03 73.95 18.2 73.95 22.12C73.95 25.94 76.99 29.04 80.79 29.17L105.29 29.17L105.29 29.23C108.95 29.5 111.85 32.53 111.85 36.26ZM24.44 15.03L25.03 15.03C24.83 15.03 24.64 15.07 24.44 15.09L24.44 15.03Z' />
+                                            </g>
+                                          </g>
+                                        </svg>
+                                        <svg class='container__cardSvg3' version='1.2' baseProfile='tiny-ps' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 153 138' width='51' height='46'>
+                                          <g id='Right Table'>
+                                            <g id='&lt;Group&gt;'>
+                                              <g id='&lt;Group&gt;'>
+                                                <g id='&lt;Group&gt;'>
+                                                  <path id='&lt;Compound Path&gt;' fill-rule='evenodd' style='fill: #2c3233' d='M152.4 53.66L152.39 111.2C152.38 116.75 147.89 121.25 142.34 121.26L69.15 121.26C67.33 121.26 65.8 122.78 65.79 124.6L65.8 137.18L59.09 137.18L59.09 124.6C59.11 119.06 63.6 114.57 69.15 114.56L142.34 114.56C144.16 114.54 145.69 113.02 145.69 111.2L145.69 53.66C145.69 51.84 144.16 50.3 142.34 50.3L107.87 50.3C107.34 59.29 104.79 67.42 100.73 73.66C96.47 80.25 90.27 84.87 83.05 85.4L83.05 85.5C83.03 85.5 81.74 85.5 81.73 85.5C81.71 85.5 47.37 85.5 47.35 85.5C45.89 89.25 42.28 91.9 38.01 91.92L28.79 91.92C23.24 91.9 18.75 87.42 18.74 81.87L18.74 68.47L4.2 68.47C2.36 68.47 0.85 66.95 0.85 65.11C0.85 63.26 2.36 61.75 4.2 61.75L18.74 61.75L18.74 33.83L4.2 33.83C2.36 33.83 0.85 32.32 0.85 30.47C0.85 28.63 2.36 27.12 4.2 27.12L18.74 27.12L18.74 10.22C18.75 4.67 23.24 0.17 28.79 0.16L38.01 0.16C42.94 0.17 47.01 3.72 47.87 8.4C47.88 8.4 81.72 8.4 81.73 8.4C81.74 8.4 83.04 8.4 83.05 8.4L83.05 8.5C90.27 9.03 96.47 13.66 100.73 20.23C104.79 26.49 107.34 34.61 107.87 43.59L142.34 43.6C147.89 43.61 152.38 48.1 152.4 53.66ZM41.36 10.22C41.36 8.4 39.83 6.87 38.01 6.86L28.79 6.86C26.97 6.87 25.44 8.4 25.43 10.22L25.43 81.87C25.44 83.69 26.97 85.21 28.79 85.22L38.01 85.22C39.83 85.21 41.36 83.69 41.36 81.87L41.36 10.22ZM76.34 78.79L76.34 15.1L48.2 15.1L48.2 78.79L76.34 78.79ZM101.28 46.96C101.28 37.82 98.83 29.6 95.11 23.88C91.68 18.66 87.43 15.7 83.05 15.2L83.05 78.7C87.43 78.2 91.68 75.24 95.11 70.01C98.83 64.3 101.28 56.08 101.28 46.96Z' />
+                                                </g>
+                                              </g>
+                                            </g>
+                                          </g>
+                                        </svg>
+                                      </div>
+                                      <div class='container__cardContent'>
+                                        <h3 class='container__cardName'>Premium Package:</h3>
+                                        <p class='container__cardPrice'>0.3 ETH per month.</p>
+                                        <p class='container__cardDesc'>Coverage: Full coverage .
+                                            Features: Standard package, plus coverage for hospitalization, surgeries, medications, and extended emergency medical care.
+                                        </p>
+                                        <a href='#emptyLink' class='container__cardLink' style='background-color: var(--color5)'>GET STARTED</a>
+                                      </div>
+                                    </div>
+                                  </div>
                             </tbody>
                         </table>
                     </div>
@@ -327,7 +578,7 @@
         </main>
     </div>
 </div>
-
+<script src="app.js"></script>
 <section>
     <div class="modal-overlay" id="creditPopup">
         <div class="modal-content">
@@ -509,7 +760,166 @@
     </script>
 </section>
   
+<section>
+    <div class="popup1" id="claimPopup">
+        <h2>Claim Submission</h2>
+        <label for="claimAmount">Claim Amount:</label>
+        <input type="number" id="claimAmount" step="0.01" placeholder="Enter claim amount">
+        <button id="submitClaim">Submit</button>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script >
+        document.addEventListener("DOMContentLoaded", async () => {
+            if (window.ethereum) {
+                window.web3 = new Web3(ethereum);
+                try {
+                    await ethereum.enable();
+                    initContract();
+                    setupClaimSubmission();
+                } catch (error) {
+                    console.error("User denied account access");
+                }
+            } else if (window.web3) {
+                window.web3 = new Web3(web3.currentProvider);
+                initContract();
+                setupClaimSubmission();
+            } else {
+                console.error("No Ethereum browser extension detected");
+            }
+        });
+        
+        async function initContract() {
+            const contractAddress = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"; // Replace with your contract address
+            const contractAbi = [[
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "packageName",
+                        "type": "string"
+                    }
+                ],
+                "name": "Subscribed",
+                "type": "event"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "packageIndex",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "subscribe",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "inputs": [],
+                "name": "getPackageCount",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "insurancePackages",
+                "outputs": [
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "price",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "isSubscribed",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ]]; // Replace with your contract ABI
+        
+            window.claimsContract = new web3.eth.Contract(contractAbi, contractAddress);
+        }
+        
+        function setupClaimSubmission() {
+            const showPopupButton = document.getElementById("showPopup");
+            const claimPopup = document.getElementById("claimPopup");
+            const submitClaimButton = document.getElementById("submitClaim");
+            const claimAmountInput = document.getElementById("claimAmount");
+        
+            showPopupButton.addEventListener("click", () => {
+                claimPopup.style.display = "block";
+            });
+        
+            submitClaimButton.addEventListener("click", async () => {
+                const claimAmount = web3.utils.toWei(claimAmountInput.value, "ether");
+        
+                try {
+                    const accounts = await web3.eth.getAccounts();
+                    await claimsContract.methods.submitClaim(claimAmount).send({
+                        from: accounts[0]
+                    });
+        
+                    alert("Claim submitted successfully. Your claim will be reviewed.");
+                    claimPopup.style.display = "none";
+                    claimAmountInput.value = "";
+                } catch (error) {
+                    console.error("Error submitting claim:", error);
+                }
+            });
+        }
+        
+    </script>
+</section>
 
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.5/web3.min.js"></script>

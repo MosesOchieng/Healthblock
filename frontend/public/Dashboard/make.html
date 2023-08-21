@@ -1,200 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Union Credit Protocol</title>
+    <title>Insurance Claims</title>
     <style>
-        /* styles.css */
-/* styles.css */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #f4f4f4;
-}
-
-.container {
-    width: 60%;
-    max-width: 200px;
-
-}
-
-.modal-overlay {
-    display: none;
-    position: relative;
-    top: 50px;
-    left: 100px;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: white;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0px 0px 10px rgba(202, 192, 192, 0.2);
-    position: relative;
-    width: 100%;
-    max-width: 350px;
-}
-
-/* Centered content */
-.modal-content h2,
-.modal-content label,
-.modal-content input,
-.modal-content button,
-.modal-content p {
-    text-align: center;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    width: 100%;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#creditResult {
-    font-weight: bold;
-    margin-top: 10px;
-}
-        /* Style for loader */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 2s linear infinite;
-            margin: 0 auto;
+        body {
+            font-family: Arial, sans-serif;
         }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .container12 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
-
-
+        .popup1 {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+        }
     </style>
 </head>
 <body>
-   
+    <div class="container12">
+        <h1>Insurance Claims</h1>
+        <button id="showPopup">Submit Claim</button>
+    </div>
+    <div class="popup1" id="claimPopup">
+        <h2>Claim Submission</h2>
+        <label for="claimAmount">Claim Amount:</label>
+        <input type="number" id="claimAmount" step="0.01" placeholder="Enter claim amount">
+        <button id="submitClaim">Submit</button>
+    </div>
 
-    <section>
-        <button id="openCreditPopup">Open Credit Update Popup</button>
-        <div class="modal-overlay" id="creditPopup">
-            <div class="modal-content">
-                <h2>Update Credit Score</h2>
-                <label for="userAddress">User Address:</label>
-                <br>
-                <input type="text" id="userAddress" required><br>
-                <label for="newCreditScore">New Credit Score:</label>
-                <br>
-                <input type="number" id="newCreditScore" min="0" required><br>
-                <br>
-                <br>
-                <button id="updateCreditButton">Update Credit Score</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Credit Check Popup -->
-    <section>
-        <button id="openCheckCreditPopup">Open Credit Check Popup</button>
-        <div class="modal-overlay" id="creditCheckPopup">
-            <div class="modal-content">
-                <h2>Check Creditworthiness</h2>
-                <label for="checkUserAddress">User Address:</label>
-                <input type="text" id="checkUserAddress" required><br>
-                <button id="checkCreditButton">Check Creditworthiness</button>
-                <p id="creditResult"></p>
-            </div>
-        </div>
-    </section>
-
-    <script src="web3.min.js"></script> <!-- Include the web3.js library -->
-
-    <script>
-        // JavaScript
-        // Use the ABI and contract address from your deployed UnionCreditProtocol contract
-        const ABI = []; // Replace with the ABI of your UnionCreditProtocol contract
-        const contractAddress = "0x..."; // Replace with the actual address of your deployed contract
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const openCreditPopupButton = document.getElementById("openCreditPopup");
-            const creditPopup = document.getElementById("creditPopup");
-            const updateCreditButton = document.getElementById("updateCreditButton");
-            const userAddressInput = document.getElementById("userAddress");
-            const newCreditScoreInput = document.getElementById("newCreditScore");
-
-            const openCheckCreditPopupButton = document.getElementById("openCheckCreditPopup");
-            const creditCheckPopup = document.getElementById("creditCheckPopup");
-            const checkCreditButton = document.getElementById("checkCreditButton");
-            const checkUserAddressInput = document.getElementById("checkUserAddress");
-            const creditResult = document.getElementById("creditResult");
-
-            openCreditPopupButton.addEventListener("click", () => {
-                creditPopup.style.display = "block";
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script >
+        document.addEventListener("DOMContentLoaded", async () => {
+            if (window.ethereum) {
+                window.web3 = new Web3(ethereum);
+                try {
+                    await ethereum.enable();
+                    initContract();
+                    setupClaimSubmission();
+                } catch (error) {
+                    console.error("User denied account access");
+                }
+            } else if (window.web3) {
+                window.web3 = new Web3(web3.currentProvider);
+                initContract();
+                setupClaimSubmission();
+            } else {
+                console.error("No Ethereum browser extension detected");
+            }
+        });
+        
+        async function initContract() {
+            const contractAddress = "CONTRACT_ADDRESS"; // Replace with your contract address
+            const contractAbi = []; // Replace with your contract ABI
+        
+            window.claimsContract = new web3.eth.Contract(contractAbi, contractAddress);
+        }
+        
+        function setupClaimSubmission() {
+            const showPopupButton = document.getElementById("showPopup");
+            const claimPopup = document.getElementById("claimPopup");
+            const submitClaimButton = document.getElementById("submitClaim");
+            const claimAmountInput = document.getElementById("claimAmount");
+        
+            showPopupButton.addEventListener("click", () => {
+                claimPopup.style.display = "block";
             });
-
-            updateCreditButton.addEventListener("click", async () => {
-                const userAddress = userAddressInput.value;
-                const newCreditScore = newCreditScoreInput.value;
-
-                // Implement contract interaction to update credit score
-                const contract = new web3.eth.Contract(ABI, contractAddress);
-                await contract.methods.updateCreditScore(userAddress, newCreditScore).send({ from: userAddress });
-
-                creditPopup.style.display = "none";
-                userAddressInput.value = "";
-                newCreditScoreInput.value = "";
-            });
-
-            openCheckCreditPopupButton.addEventListener("click", () => {
-                creditCheckPopup.style.display = "block";
-                creditResult.textContent = "";
-            });
-
-            checkCreditButton.addEventListener("click", async () => {
-                const checkUserAddress = checkUserAddressInput.value;
-
-                // Implement contract interaction to check creditworthiness
-                const contract = new web3.eth.Contract(ABI, contractAddress);
-                const isCreditworthy = await contract.methods.checkCreditworthiness(checkUserAddress).call();
-
-                if (isCreditworthy) {
-                    creditResult.textContent = "Creditworthy!";
-                    creditResult.style.color = "green";
-                } else {
-                    creditResult.textContent = "Not creditworthy.";
-                    creditResult.style.color = "red";
+        
+            submitClaimButton.addEventListener("click", async () => {
+                const claimAmount = web3.utils.toWei(claimAmountInput.value, "ether");
+        
+                try {
+                    const accounts = await web3.eth.getAccounts();
+                    await claimsContract.methods.submitClaim(claimAmount).send({
+                        from: accounts[0]
+                    });
+        
+                    alert("Claim submitted successfully. Your claim will be reviewed.");
+                    claimPopup.style.display = "none";
+                    claimAmountInput.value = "";
+                } catch (error) {
+                    console.error("Error submitting claim:", error);
                 }
             });
-        });
+        }
+        
     </script>
 </body>
 </html>
