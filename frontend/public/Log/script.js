@@ -6,7 +6,7 @@ document.getElementById("verifyBtn").addEventListener("click", async () => {
     }
 
     // Create a new instance of Web3 using the injected Ethereum provider
-    const web3 = new web3(ethereum);
+    const web3 = new Web3(ethereum);
 
     // Replace with the actual SpruceID ABI and address
     const spruceIDABI = 
