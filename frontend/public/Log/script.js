@@ -6,10 +6,10 @@ document.getElementById("verifyBtn").addEventListener("click", async () => {
     }
 
     // Create a new instance of Web3 using the injected Ethereum provider
-    const web3 = new Web3(ethereum);
+    const web3 = new web3(ethereum);
 
     // Replace with the actual SpruceID ABI and address
-    const spruceIDABI = [
+    const spruceIDABI = 
 		[
 			{
 				"anonymous": false,
@@ -52,7 +52,7 @@ document.getElementById("verifyBtn").addEventListener("click", async () => {
 			}
 		]
         // ... (your SpruceID ABI here)
-    ];
+    ;
     const spruceIDAddress = "0xf8e81D47203A594245E36C48e151709F0C19fBe8"; // your SpruceID contract address here
 
     try {
