@@ -1,58 +1,37 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    if (window.ethereum) {
-        window.web3 = new Web3(ethereum);
-        try {
-            await ethereum.enable();
-            initContract();
-            displayPackages();
-        } catch (error) {
-            console.error("User denied account access");
-        }
-    } else if (window.web3) {
-        window.web3 = new Web3(web3.currentProvider);
-        initContract();
-        displayPackages();
-    } else {
-        console.error("No Ethereum browser extension detected");
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.8.0 <0.9.0;
+
+contract InsuranceContract {
+    // Define insurance package details
+    struct InsurancePackage {
+        string name;
+        uint256 price;
     }
-});
 
-async function initContract() {
-    const contractAddress = "CONTRACT_ADDRESS"; // Replace with your contract address
-    const contractAbi = [...]; // Replace with your contract ABI
+    InsurancePackage[] public insurancePackages;
 
-    window.insuranceContract = new web3.eth.Contract(contractAbi, contractAddress);
-}
+    mapping(address => bool) public isSubscribed;
 
-async function displayPackages() {
-    const packagesDiv = document.getElementById("packages");
+    event Subscribed(address indexed user, string packageName);
 
-    const packages = [
-        { name: "Basic Package", price: web3.utils.toWei("1", "ether") },
-        { name: "Standard Package", price: web3.utils.toWei("2", "ether") },
-        { name: "Premium Package", price: web3.utils.toWei("3", "ether") }
-    ];
+    constructor() {
+        insurancePackages.push(InsurancePackage("Basic Package", 1 ether));
+        insurancePackages.push(InsurancePackage("Standard Package", 2 ether));
+        insurancePackages.push(InsurancePackage("Premium Package", 3 ether));
+    }
 
-    packages.forEach((packageDetails, index) => {
-        const subscribeButton = document.createElement("button");
-        subscribeButton.innerText = `Subscribe to ${packageDetails.name} (${web3.utils.fromWei(packageDetails.price, "ether")} ETH)`;
-        subscribeButton.addEventListener("click", async () => {
-            await subscribe(index, packageDetails.price);
-        });
-        packagesDiv.appendChild(subscribeButton);
-    });
-}
+    function subscribe(uint256 packageIndex) external payable {
+        require(packageIndex < insurancePackages.length, "Invalid package index");
+        require(!isSubscribed[msg.sender], "Already subscribed");
 
-async function subscribe(packageIndex, price) {
-    try {
-        const accounts = await web3.eth.getAccounts();
-        await insuranceContract.methods.subscribe(packageIndex).send({
-            from: accounts[0],
-            value: price
-        });
-        alert("Congratulations! You've subscribed to the insurance package.");
-        location.reload();
-    } catch (error) {
-        console.error("Error subscribing:", error);
+        InsurancePackage storage selectedPackage = insurancePackages[packageIndex];
+        require(msg.value >= selectedPackage.price, "Insufficient funds");
+
+        isSubscribed[msg.sender] = true;
+        emit Subscribed(msg.sender, selectedPackage.name);
+    }
+
+    function getPackageCount() external view returns (uint256) {
+        return insurancePackages.length;
     }
 }

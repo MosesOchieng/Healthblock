@@ -18,13 +18,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function initContract() {
-    const contractAddress = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"; // Replace with your contract address
+    const contractAddress = "0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8"; // Replace with your contract address
     const contractAbi = [[
-        {
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        },
         {
             "anonymous": false,
             "inputs": [
@@ -43,6 +38,24 @@ async function initContract() {
             ],
             "name": "Subscribed",
             "type": "event"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "packageIndex",
+                    "type": "uint256"
+                }
+            ],
+            "name": "subscribe",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
         },
         {
             "inputs": [],
@@ -98,19 +111,6 @@ async function initContract() {
                 }
             ],
             "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "packageIndex",
-                    "type": "uint256"
-                }
-            ],
-            "name": "subscribe",
-            "outputs": [],
-            "stateMutability": "payable",
             "type": "function"
         }
     ]]; // Replace with your contract ABI
