@@ -371,8 +371,8 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <span class="h6 font-semibold text-muted text-sm d-block mb-2">NFT insurance</span>
-                                        <span class="h3 font-bold mb-0"></span>
+                                        <span class="h6 font-semibold text-muted text-sm d-block mb-2">Premium Packages </span>
+                                        <span class="h3 font-bold mb-0"  id="packages"></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
@@ -451,7 +451,7 @@
                             <tbody>
                                 <div class='container1'>
                                     <!-- Card 1 -->
-                                    <div class='container__card'  id="packages">
+                                    <div class='container__card' >
                                       <div class='container__cardSvgs' style='background-color: var(--color3)'>
                                         <svg class='container__cardSvg1' version='1.2' baseProfile='tiny-ps' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 681 446' width='226' height='148'>
                                           <g id='Left Table'>
@@ -603,151 +603,155 @@
             <p id="creditResult"></p>
         </div>
     </div>
-    <script src="web3.min.js"></script>
     <script>
         // JavaScript
         // Use the ABI and contract address from your deployed UnionCreditProtocol contract
-        const ABI = [[
-        {
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": true,
-                    "internalType": "address",
-                    "name": "user",
-                    "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "creditScore",
-                    "type": "uint256"
-                }
-            ],
-            "name": "CreditScoreUpdated",
-            "type": "event"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "user",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "requestedAmount",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "income",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "bool",
-                    "name": "hasSteadyEmployment",
-                    "type": "bool"
-                }
-            ],
-            "name": "accessCredit",
-            "outputs": [
-                {
-                    "internalType": "bool",
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "creditScores",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "user",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "newCreditScore",
-                    "type": "uint256"
-                }
-            ],
-            "name": "updateCreditScore",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        }
-    ]]; // Replace with the ABI of your UnionCreditProtocol contract
+        const ABI = [
+            // ... (Your ABI here)[
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "creditScore",
+				"type": "uint256"
+			}
+		],
+		"name": "CreditScoreUpdated",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "newCreditScore",
+				"type": "uint256"
+			}
+		],
+		"name": "updateCreditScore",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "requestedAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "income",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "hasSteadyEmployment",
+				"type": "bool"
+			}
+		],
+		"name": "accessCredit",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "creditScores",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+        ;
         const contractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138"; // Replace with the actual address of your deployed contract
-
+    
         document.addEventListener("DOMContentLoaded", () => {
             const openCreditPopupButton = document.getElementById("openCreditPopup");
             const creditPopup = document.getElementById("creditPopup");
             const updateCreditButton = document.getElementById("updateCreditButton");
             const userAddressInput = document.getElementById("userAddress");
             const newCreditScoreInput = document.getElementById("newCreditScore");
-
+    
             const openCheckCreditPopupButton = document.getElementById("openCheckCreditPopup");
             const creditCheckPopup = document.getElementById("creditCheckPopup");
             const checkCreditButton = document.getElementById("checkCreditButton");
             const checkUserAddressInput = document.getElementById("checkUserAddress");
             const creditResult = document.getElementById("creditResult");
-
+    
             openCreditPopupButton.addEventListener("click", () => {
                 creditPopup.style.display = "block";
             });
-
+    
             updateCreditButton.addEventListener("click", async () => {
                 const userAddress = userAddressInput.value;
                 const newCreditScore = newCreditScoreInput.value;
-
+    
                 // Implement contract interaction to update credit score
                 const contract = new web3.eth.Contract(ABI, contractAddress);
                 await contract.methods.updateCreditScore(userAddress, newCreditScore).send({ from: userAddress });
-
+    
                 creditPopup.style.display = "none";
                 userAddressInput.value = "";
                 newCreditScoreInput.value = "";
             });
-
+    
             openCheckCreditPopupButton.addEventListener("click", () => {
                 creditCheckPopup.style.display = "block";
                 creditResult.textContent = "";
             });
-
+    
             checkCreditButton.addEventListener("click", async () => {
                 const checkUserAddress = checkUserAddressInput.value;
-
+                const requestedAmount = 1000; // Replace with the actual requested amount
+                const income = 50000; // Replace with the actual user's income
+                const hasSteadyEmployment = true; // Replace with the actual user's employment status
+    
                 // Implement contract interaction to check creditworthiness
                 const contract = new web3.eth.Contract(ABI, contractAddress);
-                const isCreditworthy = await contract.methods.checkCreditworthiness(checkUserAddress).call();
-
+                const isCreditworthy = await contract.methods.accessCredit(checkUserAddress, requestedAmount, income, hasSteadyEmployment).call();
+    
                 if (isCreditworthy) {
                     creditResult.textContent = "Creditworthy!";
                     creditResult.style.color = "green";
@@ -758,6 +762,8 @@
             });
         });
     </script>
+    <!-- End of your HTML code -->
+    
 </section>
   
 <section>
