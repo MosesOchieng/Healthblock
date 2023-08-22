@@ -120,7 +120,12 @@ async function initContract() {
 
 async function displayPackages() {
     const packagesDiv = document.getElementById("packages");
-
+    const packages = [
+        { name: "Basic Package", price: web3.utils.toWei("1", "ether") },
+        { name: "Standard Package", price: web3.utils.toWei("2", "ether") },
+        { name: "Premium Package", price: web3.utils.toWei("3", "ether") }
+    ];
+    
     const packageCount = await insuranceContract.methods.getPackageCount().call();
 
     for (let i = 0; i < packageCount; i++) {
