@@ -126,6 +126,7 @@ async function displayPackages() {
     packageNames.forEach(async (packageName, index) => {
         const subscribeButton = document.createElement("button");
         subscribeButton.innerText = `Subscribe to ${packageName}`;
+        subscribeButton.style.fontSize = "14px";
         subscribeButton.addEventListener("click", async () => {
             await subscribe(index);
         });
