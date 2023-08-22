@@ -121,17 +121,22 @@ async function initContract() {
 async function displayPackages() {
     const packagesDiv = document.getElementById("packages");
 
-    const packageNames = ["Basic Package", "Standard Package", "Premium Package"];
+    const packageCount = await insuranceContract.methods.getPackageCount().call();
 
-    packageNames.forEach(async (packageName, index) => {
+    for (let i = 0; i < packageCount; i++) {
+        const packageDetails = await insuranceContract.methods.insurancePackages(i).call();
+        const packageName = packageDetails.name;
+        const packagePrice = web3.utils.fromWei(packageDetails.price, "ether");
+
         const subscribeButton = document.createElement("button");
-        subscribeButton.innerText = `Subscribe to ${packageName}`;
+        subscribeButton.innerText = `Subscribe to ${packageName} (${packagePrice} ETH)`;
         subscribeButton.style.fontSize = "14px";
+
         subscribeButton.addEventListener("click", async () => {
-            await subscribe(index);
+            await subscribe(i, packageDetails.price);
         });
         packagesDiv.appendChild(subscribeButton);
-    });
+    }
 }
 
 async function subscribe(packageIndex) {
