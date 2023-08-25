@@ -1,201 +1,122 @@
-# dApp Starter Kit
+# Health chain
+HealthChain: Decentralized Health Insurance Platform
 
-Welcome! 
+HealthChain is a decentralized health insurance platform that leverages blockchain technology to provide affordable and accessible insurance coverage to individuals in underserved regions of Africa and Asia. The platform combines microfinance, collateralized insurance for preventive care, digital identity authentication using Spruce ID, credit insurance through Union Credit Protocol, and Sort and C-Chai subnets to offer a comprehensive and inclusive solution for health insurance challenges in these regions.
+Table of Contents
 
-This is a starter kit for building decentralized applications (dApps) using Solidity smart contracts and React.js frontend. 
+    Features
+    Technologies
+    Getting Started
+    Usage
+    Contributing
+    License
+Project Explanation:
 
-It provides a basic setup for building, testing, and deploying your dApp.
+HealthChain: Decentralized Health Insurance Platform
 
-The starter kit includes a sample smart contract written in Solidity, a React.js frontend, and a Hardhat configuration for deploying to the Ethereum test networks (The sample contract is deployed in mumbai testnet). 
+HealthChain is a groundbreaking decentralized health insurance platform designed to address the health coverage challenges faced by underserved regions in Africa and Asia. By seamlessly integrating cutting-edge technologies, HealthChain offers an inclusive and secure solution that transforms the health insurance landscape.
 
-It also includes scripts for compiling, deploying, and testing your dApp.
+    Microfinance Insurance: HealthChain pioneers microfinance-based insurance, empowering users to subscribe to insurance packages that align with their unique needs and financial capacity.
 
-Whether you're a beginner or an experienced developer, this starter kit provides a solid foundation for building your next dApp. Get started quickly with our easy-to-use setup, or customize it to fit your specific needs.
+    Collateralized Preventive Care: The platform introduces an ingenious approach – collateralized insurance for preventive care. Users are incentivized to embrace healthier lifestyles, fostering well-being while enjoying the benefits of insurance coverage.
 
-Happy coding!
+    Digital Identity Authentication: Spruce ID takes center stage, ensuring swift and secure authentication of user identities. This feature guarantees data privacy and expedites onboarding processes.
 
-# Getting started: 
-There are 2 branches:
-1. wagmi-wallet 
-2. metamask-wallet 
+    Credit Insurance with Union Credit Protocol: HealthChain partners with the Union Credit Protocol to assess users' creditworthiness. This collaboration results in credit insurance that makes health coverage accessible to a broader population.
 
-`wagmi-wallet`: recommended when building large scalable dApps. Supports coinbase, walletconnect and metamask wallets
+    Blockchain Technology: HealthChain harnesses the power of blockchain technology to establish transparency, immutability, and trust in insurance operations. Users can rely on tamper-resistant records and streamlined processes.
 
-`metamask-wallet`: recommended when doing smaller projects, only supports Metamask wallet
+    Payment with Digital Currencies: Embracing financial inclusion, HealthChain allows users to pay insurance premiums using digital currencies. This approach eliminates barriers associated with traditional payment methods.
 
-## METAMASK BRANCH: 
+    Arbitrum and SORT Blockchain: HealthChain takes advantage of Arbitrum, a Layer 2 scaling solution, to enhance transaction efficiency and affordability. Additionally, the integration of the SORT blockchain enhances security and data integrity.
 
-Run the following commands:
+By converging microfinance, preventive care incentives, digital identity, credit insurance, blockchain technology, and digital payments, HealthChain stands as a beacon of hope in the quest for equitable and accessible health insurance for all.
 
-`git clone https://github.com/Stephen-Kimoi/dApp-starter-kit.git` 
+Features
 
-`git checkout metamask-wallet` 
+    Microfinance Insurance: HealthChain enables microfinance-based insurance, allowing users to subscribe to insurance packages tailored to their needs.
+    Collateralized Preventive Care: The platform offers collateralized insurance for preventive care, encouraging users to maintain a healthier lifestyle.
+    Digital Identity Authentication: Spruce ID is used to authenticate user identities securely and efficiently.
+    Credit Insurance: Union Credit Protocol assesses creditworthiness and provides credit insurance, making insurance more accessible.
+    Blockchain Technology: The platform leverages blockchain technology to ensure transparency, immutability, and secure transactions.
+    Payment with Digital Currencies: Users can pay premiums using digital currencies, promoting financial inclusion.
 
-`cd dApp-starter-kit` & `npm install` 
+Technologies
 
-`cd frontend` & `npm install` 
+    Ethereum Smart Contracts
+    Solidity
+    Web3.js
+    Spruce ID
+    Union Credit Protocol
+    Sort and C-Chai Subnets
+    Arbitrum
+    ENS naming systems
+    Sort blockchain
 
-`npm run dev`  
+Getting Started
 
-<!-- Link to demo: 
-https://www.loom.com/share/512ac2e1e464495b903f8c49573f2ce9 -->
+To run the HealthChain project locally, follow these steps:
 
+    Clone this repository to your local machine.
+    Install the necessary dependencies using npm install.
+    Configure your development environment with Ethereum client and web3 provider.
+    Deploy the smart contracts using the provided Solidity code.
+    Update the ABI and contract addresses in the JavaScript files.
+    Start a local server to run the HTML files.
 
-## File structure 
-This is the file structure: 
-```
-dapp-starter-kit/
+Usage
+
+    Updating Credit Score: Use the "Update Credit Score" feature to update a user's credit score. Enter the user's address and the new credit score, then click "Update Credit Score".
+
+    Checking Creditworthiness: Use the "Check Creditworthiness" feature to check a user's creditworthiness. Enter the user's address, requested amount, income, and employment status, then click "Check Creditworthiness". The result will indicate whether the user is creditworthy.
+Project Structure Explanation:
+
+    contracts/: This directory contains your Solidity smart contracts. Each contract has its own .sol file. In HealthChain, you might have contracts like InsuranceContract.sol, UnionCreditProtocol.sol, and more.
+
+    src/: This directory holds your frontend source files. In this example, it contains index.html, app.js, and styles.css. These files are responsible for the user interface of your decentralized health insurance platform.
+
+    scripts/: This directory could contain various deployment scripts if you're using a tool like Hardhat for Ethereum contract deployment. The deploy.js script, for example, might deploy your smart contracts to the Ethereum blockchain.
+
+    tests/: Here, you can write your automated tests for your smart contracts. The tests/ directory contains test scripts for each contract, like InsuranceContract.test.js and UnionCreditProtocol.test.js.
+
+    package.json: This is the configuration file for your Node.js/npm project. It lists your project's dependencies and other metadata.
+
+    hardhat.config.js: If you're using Hardhat for Ethereum development, this is the configuration file where you set up your network settings, compilers, and more.
+
+    README.md: The README file for your project, containing information about the project, how to set it up, how to use it, and more.
+
+    LICENSE: The license file for your project. In this example, it's the GNU General Public License v3.0.
+
+    healthchain/
+│
 ├── contracts/
-│   ├── SimpleStorage.sol
-├── frontend/
-│   ├── public/
-│   │   ├── logo.png
-│   └── src/
-│        ├── assets
-│        ├── components/ 
-│        │    ├── ConnectWalletModal/ 
-│        │    │    ├── ConnectWalletModal.css 
-│        │    │    ├── ConnectWalletModal.jsx
-│        │    │    ├── RenderConnectors.jsx
-│        │    ├── Header/ 
-│        │    │   ├── Header.css 
-│        │    │   ├── Header.jsx 
-│        │    ├── Navbar/ 
-│        │    │   ├──  Navbar.css
-│        │    │   ├── Navbar.jsx
-│        ├── ConnectWallet/ 
-│             ├── ConnectWallet.js
-│        ├── ContractInstance/ 
-│        │    ├── ContractInstance.js
-│        ├── contracts/ 
-│        │    ├── contract-address.json 
-│        │    ├── SimpleStorage.json 
-│        ├── App.css
-│        ├── App.jsx
-│        ├── index.css 
-│        ├── main.jsx
-├── scripts/ 
-│   ├── deploy.js 
-├── test/
-│   └── SimpleStorage.js 
-├── hardhat.config.js
+│   ├── InsuranceContract.sol
+│   ├── UnionCreditProtocol.sol
+│   └── ... (other smart contracts)
+│
+├── src/
+│   ├── index.html
+│   ├── app.js
+│   └── styles.css
+│
+├── scripts/
+│   ├── deploy.js
+│   └── ... (other deployment scripts)
+│
+├── tests/
+│   ├── InsuranceContract.test.js
+│   ├── UnionCreditProtocol.test.js
+│   └── ... (other test scripts)
+│
 ├── package.json
-└── README.md 
-``` 
-
-NB: The file structure of the `wagmi-wallet` branch is a bit different from the file structure of the `metamask-wallet` branch
-
-Sample contract is found in `contracts/SimpleStorage.sol`
-
-The deploy script is found in `scripts/deploy.js` 
-
-### NB: You do not need to manualy copy paste the contract ABI and address when you run the deploy script, the `saveFrontendFiles` function inside the `deploy.js` script automatically creates a folder named `contracts` inside the `frontend/src` directory which contains: 
-```
-├── contracts/ 
-    ├── contract-address.json - contains contract address 
-    ├── SimpleStorage.json - contains contract ABI
-``` 
-
-The command for running the deploy script is: 
-`npm run deployTestnet` (check out package.json in the main directory)
-
-This command deploys the contract to `mumbai testnet` 
-
-If you want to test the smart contract locally without having to deploy it: 
-1. Run `npx hardhat node` for starting the hardhat node network. 
-2. Run `npm run deployLocal` deploys contract to local hardhat network that you've just started. 
-
-## frontend 
-Dependencies: 
-`vite` 
-`react-modal` 
-`ethers` 
-
-When you run `npm run dev` this is the site that you'll see: 
-
-Click on the `connect wallet` button and this pop-up will appear: 
-
-Once you connet your wallet succesfully this is what you'll see: 
-
-You can write any message and send it to see whether your transaction will be successfull 
-
-### NB: The contract is deployed in `mumbai testnet`, therefore ensure you've switched to mumbai testnet and have some `mumbai matic` to prevent any errors. 
-
-## Functions description:
-
-### Wallet Connection: 
-We are using `Ether js` to connect to our wallets. 
-
-Function for connecting wallet can be found in the `frontend/src/ConnectWallet/ConnectWallet.js` directory
+├── hardhat.config.js
+├── README.md
+└── LICENSE
 
 
-``` 
-├── frontend/ 
-│    ... 
-│    └── src/ 
-│    ... 
-│       ├── ConnectWallet/ 
-│           ├── ConnectWallet.js 
-``` 
+Contributing
 
-The wallet provider that has been configured in the project is `Metamask`
+Contributions to HealthChain are welcome! If you have suggestions, bug reports, or feature requests, please open an issue on GitHub. Feel free to fork this repository and submit pull requests.
+License
 
-### Navbar.jsx 
-The file can be located in the `frontend/src/components/Navbar/Navbar.jsx` 
-
-File path: 
-``` 
-├── frontend/ 
-│    ... 
-│    └── src/ 
-│    ... 
-│       ├── components/ 
-│           ...
-│           ├── Navbar
-|               ├── Navbar.jsx
-``` 
-When you click the `connectWallet` button, a modal pop-up containing button for connecting to Metamask
-
-Once you've connected your wallet, 2 buttons appear: 
-1. Disconnect - for disconnecting the wallet 
-2. Sliced address - contains address of the connected wallet
-
-### ConnectWalletModal.jsx 
-This is where the wallet connection takes place. 
-
-The main function for connecting the wallet can be found within the `handleMetamaskSignUp` function.  
-
-The `renderConnectors` function on line 47 displays the Metamask wallet connector button.  
-
-Once the wallet is connected, the `Header` component appears. 
-
-### Header.jsx 
-This is where we call and perform actions to the deployed smart contract. 
-
-We first import the `contractInstance` from the `frontend/src/ContractInstance/ContractInstance` directory. 
-
-```
-import contractInstance from '../../ContractInstance/ContractInstance';
-```
-
-We are performing the contract write operation normally using ethers js
-
-We call the `set` function from the `simpleStorgae` contract instance gotten from the `contractInstance` import. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+This project is licensed under the GNU General Public License v3.0.
