@@ -1,98 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insurance Claims</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container12 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        .popup1 {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            padding: 20px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            z-index: 9999;
-        }
-    </style>
+    <!-- Include Web3.js and ENS.js libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eth-ens-namehash@2.0.0/dist/eth-ens-namehash.min.js"></script>
 </head>
 <body>
-    <div class="container12">
-        <h1>Insurance Claims</h1>
-        <button id="showPopup">Submit Claim</button>
-    </div>
-    <div class="popup1" id="claimPopup">
-        <h2>Claim Submission</h2>
-        <label for="claimAmount">Claim Amount:</label>
-        <input type="number" id="claimAmount" step="0.01" placeholder="Enter claim amount">
-        <button id="submitClaim">Submit</button>
+    <button id="loginButton">Login with ENS</button>
+
+    <!-- ENS Registration Popup -->
+    <div id="ensPopup" style="display: none;">
+        <input type="text" id="ensNameInput" placeholder="Enter your ENS name">
+        <button id="registerENSButton">Register</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
-    <script >
+    <!-- ENS Name Display -->
+    <div id="ensNameDisplay" style="display: none;">
+        <h2>Logged in with ENS:</h2>
+        <p id="ensName"></p>
+    </div>
+
+    <script>
         document.addEventListener("DOMContentLoaded", async () => {
             if (window.ethereum) {
                 window.web3 = new Web3(ethereum);
                 try {
-                    await ethereum.enable();
-                    initContract();
-                    setupClaimSubmission();
+                    await ethereum.request({ method: 'eth_requestAccounts' });
+                    initContracts();
                 } catch (error) {
                     console.error("User denied account access");
                 }
             } else if (window.web3) {
                 window.web3 = new Web3(web3.currentProvider);
-                initContract();
-                setupClaimSubmission();
+                initContracts();
             } else {
                 console.error("No Ethereum browser extension detected");
             }
+            
+            // Display existing ENS name on page load if available
+            const accounts = await web3.eth.getAccounts();
+            await displayENSName(accounts[0]);
         });
         
-        async function initContract() {
-            const contractAddress = "CONTRACT_ADDRESS"; // Replace with your contract address
-            const contractAbi = []; // Replace with your contract ABI
-        
-            window.claimsContract = new web3.eth.Contract(contractAbi, contractAddress);
+        async function initContracts() {
+            try {
+                // Initialize your contracts and interactions here
+            } catch (error) {
+                console.error("Error initializing contracts:", error);
+            }
         }
         
-        function setupClaimSubmission() {
-            const showPopupButton = document.getElementById("showPopup");
-            const claimPopup = document.getElementById("claimPopup");
-            const submitClaimButton = document.getElementById("submitClaim");
-            const claimAmountInput = document.getElementById("claimAmount");
+        async function displayENSName(address) {
+            try {
+                const ensName = await getENSName(address);
+                document.getElementById("ensName").textContent = ensName || "Not Set";
+            } catch (error) {
+                console.error("Error displaying ENS name:", error);
+            }
+        }
         
-            showPopupButton.addEventListener("click", () => {
-                claimPopup.style.display = "block";
-            });
-        
-            submitClaimButton.addEventListener("click", async () => {
-                const claimAmount = web3.utils.toWei(claimAmountInput.value, "ether");
-        
-                try {
-                    const accounts = await web3.eth.getAccounts();
-                    await claimsContract.methods.submitClaim(claimAmount).send({
-                        from: accounts[0]
-                    });
-        
-                    alert("Claim submitted successfully. Your claim will be reviewed.");
-                    claimPopup.style.display = "none";
-                    claimAmountInput.value = "";
-                } catch (error) {
-                    console.error("Error submitting claim:", error);
-                }
-            });
+        async function getENSName(address) {
+            const reverseRegistrarAddress = "0x0000000000000000000000000000000000000064"; // Replace with actual ReverseRegistrar contract address
+            const reverseRegistrarAbi = [/* ReverseRegistrar ABI */]; // Replace with actual ABI
+            
+            const reverseRegistrar = new web3.eth.Contract(reverseRegistrarAbi, reverseRegistrarAddress);
+            const ensName = await reverseRegistrar.methods.name(address).call();
+            return ensName;
         }
         
     </script>
