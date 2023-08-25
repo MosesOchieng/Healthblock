@@ -3,7 +3,6 @@
 <head>
     <!-- Include Web3.js and ENS.js libraries -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/eth-ens-namehash@2.0.0/dist/eth-ens-namehash.min.js"></script>
 </head>
 <body>
     <button id="loginButton">Login with ENS</button>
@@ -38,48 +37,8 @@
         async function initContracts() {
             try {
                 const ensRegistrationContractAddress = "0x7EF2e0048f5bAeDe046f6BF797943daF4ED8CB47"; // Replace with your contract address
-                const ensRegistrationContractAbi = [
-                    // ... Your ENSRegistration ABI ...
-                    [
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "ensNames",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_ensName",
-				"type": "string"
-			}
-		],
-		"name": "registerENSName",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	}
-]
-                ];
         
-                window.ensRegistrationContract = new web3.eth.Contract(
-                    ensRegistrationContractAbi,
-                    ensRegistrationContractAddress
-                );
+                window.ensRegistrationContract = new web3.eth.Contract([], ensRegistrationContractAddress);
         
                 displayENSName();
             } catch (error) {
