@@ -10,7 +10,7 @@ HealthChain is a decentralized health insurance platform that leverages blockcha
     Usage
     Contributing
     License
-#Project Explanation:
+# Project Explanation:
 
 HealthChain: Decentralized Health Insurance Platform
 
@@ -32,7 +32,7 @@ By seamlessly integrating cutting-edge technologies, HealthChain offers an inclu
 
 By converging microfinance, preventive care incentives, digital identity, credit insurance, blockchain technology, and digital payments, HealthChain stands as a beacon of hope in the quest for equitable and accessible health insurance for all.
 
-#Features
+# Features
 
     Microfinance Insurance: HealthChain enables microfinance-based insurance, allowing users to subscribe to insurance packages tailored to their needs.
     Collateralized Preventive Care: The platform offers collateralized insurance for preventive care, encouraging users to maintain a healthier lifestyle.
@@ -41,7 +41,7 @@ By converging microfinance, preventive care incentives, digital identity, credit
     Blockchain Technology: The platform leverages blockchain technology to ensure transparency, immutability, and secure transactions.
     Payment with Digital Currencies: Users can pay premiums using digital currencies, promoting financial inclusion.
 
-#Technologies
+# Technologies
 
     Ethereum Smart Contracts
     Solidity
@@ -53,7 +53,7 @@ By converging microfinance, preventive care incentives, digital identity, credit
     ENS naming systems
     Sort blockchain
 
-#Getting Started
+# Getting Started
 
 To run the HealthChain project locally, follow these steps:
 
@@ -64,13 +64,13 @@ To run the HealthChain project locally, follow these steps:
     Update the ABI and contract addresses in the JavaScript files.
     Start a local server to run the HTML files.
 
-#Usage
+# Usage
 
     Updating Credit Score: Use the "Update Credit Score" feature to update a user's credit score. Enter the user's address and the new credit score, then click "Update Credit Score".
 
     Checking Creditworthiness: Use the "Check Creditworthiness" feature to check a user's creditworthiness. Enter the user's address, requested amount, income, and employment status, then click "Check Creditworthiness". The result will indicate whether the user is creditworthy.
 
-#Project Structure Explanation:
+# Project Structure Explanation:
 
     contracts/: This directory contains your Solidity smart contracts. Each contract has its own .sol file. In HealthChain, you might have contracts like InsuranceContract.sol, UnionCreditProtocol.sol, and more.
 
@@ -89,9 +89,9 @@ To run the HealthChain project locally, follow these steps:
     LICENSE: The license file for your project. In this example, it's the GNU General Public License v3.0.
 
 
-    #Structure
+# Structure
 
-    healthchain/
+healthchain/
 │
 ├── contracts/
 │   ├── InsuranceContract.sol
@@ -118,7 +118,7 @@ To run the HealthChain project locally, follow these steps:
 └── LICENSE
 
 
-#Contributing
+# Contributing
 
 Contributions to HealthChain are welcome! If you have suggestions, bug reports, or feature requests, please open an issue on GitHub. Feel free to fork this repository and submit pull requests.
 License
