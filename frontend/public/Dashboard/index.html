@@ -579,35 +579,63 @@
     </div>
 </div>
 <script src="app.js"></script>
-<section>
-    <div class="modal-overlay" id="creditPopup">
-        <div class="modal-content">
-            <h2>Update Credit Score</h2>
-            <label for="userAddress">User Address:</label>
-            <br>
-            <input type="text" id="userAddress" required><br>
-            <label for="newCreditScore">New Credit Score:</label>
-            <br>
-            <input type="number" id="newCreditScore" min="0" required><br>
-            <br>
-            <br>
-            <button id="updateCreditButton">Update Credit Score</button>
-        </div>
-    </div>
-    <div class="modal-overlay" id="creditCheckPopup">
-        <div class="modal-content">
-            <h2>Check Creditworthiness</h2>
-            <label for="checkUserAddress">User Address:</label>
-            <input type="text" id="checkUserAddress" required><br>
-            <button id="checkCreditButton">Check Creditworthiness</button>
-            <p id="creditResult"></p>
-        </div>
-    </div>
-    <script>
-        // JavaScript
-        // Use the ABI and contract address from your deployed UnionCreditProtocol contract
-        const ABI = [
-            // ... (Your ABI here)[
+
+    <section>
+        <section>
+            <div class="modal-overlay" id="creditPopup">
+                <!-- ... (your modal content for updating credit score) -->
+                <div class="modal-content">
+                    <h2>Update Credit Score</h2>
+                    <label for="userAddress">User Address:</label>
+                    <br>
+                    <input type="text" id="userAddress" required><br>
+                    <label for="newCreditScore">New Credit Score:</label>
+                    <br>
+                    <input type="number" id="newCreditScore" min="0" required><br>
+                    <br>
+                    <br>
+                    <button id="updateCreditButton">Update Credit Score</button>
+                </div>
+            </div>
+            <div class="modal-overlay" id="creditCheckPopup">
+                <!-- ... (your modal content for checking creditworthiness) -->
+                <div class="modal-content">
+                    <h2>Check Creditworthiness</h2>
+                    <label for="checkUserAddress">User Address:</label>
+                    <input type="text" id="checkUserAddress" required><br>
+                    <button id="checkCreditButton">Check Creditworthiness</button>
+                    <p id="creditResult"></p>
+                </div>
+            </div>
+          
+        </section>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", async () => {
+                if (window.ethereum) {
+                    window.web3 = new Web3(ethereum);
+                    try {
+                        await ethereum.enable();
+                        initContract();
+                    } catch (error) {
+                        console.error("User denied account access");
+                    }
+                } else if (window.web3) {
+                    window.web3 = new Web3(web3.currentProvider);
+                    initContract();
+                } else {
+                    console.error("No Ethereum browser extension detected");
+                }
+            });
+        
+            async function initContract() {
+                const ABI = [
+                    // ... (Your ABI here)[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
 	{
 		"anonymous": false,
 		"inputs": [
@@ -626,29 +654,6 @@
 		],
 		"name": "CreditScoreUpdated",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "newCreditScore",
-				"type": "uint256"
-			}
-		],
-		"name": "updateCreditScore",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
 	},
 	{
 		"inputs": [
@@ -702,70 +707,97 @@
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "newCreditScore",
+				"type": "uint256"
+			}
+		],
+		"name": "updateCreditScore",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
-]
-        ;
-        const contractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138"; // Replace with the actual address of your deployed contract
-    
-        document.addEventListener("DOMContentLoaded", () => {
+
+                ];
+                const contractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138"; // Replace with the actual address of your deployed contract
+        
+                window.insuranceContract = new web3.eth.Contract(ABI, contractAddress);
+            }
+        
             const openCreditPopupButton = document.getElementById("openCreditPopup");
             const creditPopup = document.getElementById("creditPopup");
             const updateCreditButton = document.getElementById("updateCreditButton");
             const userAddressInput = document.getElementById("userAddress");
             const newCreditScoreInput = document.getElementById("newCreditScore");
-    
+        
             const openCheckCreditPopupButton = document.getElementById("openCheckCreditPopup");
             const creditCheckPopup = document.getElementById("creditCheckPopup");
             const checkCreditButton = document.getElementById("checkCreditButton");
             const checkUserAddressInput = document.getElementById("checkUserAddress");
             const creditResult = document.getElementById("creditResult");
-    
+        
             openCreditPopupButton.addEventListener("click", () => {
                 creditPopup.style.display = "block";
             });
-    
+        
             updateCreditButton.addEventListener("click", async () => {
                 const userAddress = userAddressInput.value;
                 const newCreditScore = newCreditScoreInput.value;
-    
+        
                 // Implement contract interaction to update credit score
-                const contract = new web3.eth.Contract(ABI, contractAddress);
-                await contract.methods.updateCreditScore(userAddress, newCreditScore).send({ from: userAddress });
-    
-                creditPopup.style.display = "none";
-                userAddressInput.value = "";
-                newCreditScoreInput.value = "";
+                try {
+                    const accounts = await web3.eth.getAccounts();
+                    const contract = new web3.eth.Contract(ABI, contractAddress);
+                    await contract.methods.updateCreditScore(userAddress, newCreditScore).send({ from: accounts[0] });
+        
+                    creditPopup.style.display = "none";
+                    userAddressInput.value = "";
+                    newCreditScoreInput.value = "";
+                } catch (error) {
+                    console.error("Error updating credit score:", error);
+                }
             });
-    
+        
             openCheckCreditPopupButton.addEventListener("click", () => {
                 creditCheckPopup.style.display = "block";
                 creditResult.textContent = "";
             });
-    
+        
             checkCreditButton.addEventListener("click", async () => {
                 const checkUserAddress = checkUserAddressInput.value;
                 const requestedAmount = 1000; // Replace with the actual requested amount
                 const income = 50000; // Replace with the actual user's income
                 const hasSteadyEmployment = true; // Replace with the actual user's employment status
-    
+        
                 // Implement contract interaction to check creditworthiness
-                const contract = new web3.eth.Contract(ABI, contractAddress);
-                const isCreditworthy = await contract.methods.accessCredit(checkUserAddress, requestedAmount, income, hasSteadyEmployment).call();
-    
-                if (isCreditworthy) {
-                    creditResult.textContent = "Creditworthy!";
-                    creditResult.style.color = "green";
-                } else {
-                    creditResult.textContent = "Not creditworthy.";
-                    creditResult.style.color = "red";
+                try {
+                    const contract = new web3.eth.Contract(ABI, contractAddress);
+                    const isCreditworthy = await contract.methods.accessCredit(checkUserAddress, requestedAmount, income, hasSteadyEmployment).call();
+        
+                    if (isCreditworthy) {
+                        creditResult.textContent = "Creditworthy!";
+                        creditResult.style.color = "green";
+                    } else {
+                        creditResult.textContent = "Not creditworthy.";
+                        creditResult.style.color = "red";
+                    }
+                } catch (error) {
+                    console.error("Error checking creditworthiness:", error);
                 }
             });
-        });
-    </script>
-    <!-- End of your HTML code -->
-    
-</section>
-  
+        
+        </script>
+        
+    </section>
 <section>
     <div class="popup1" id="claimPopup">
         <h2>Claim Submission</h2>
