@@ -465,11 +465,17 @@
                 </div>
                 <section>
                     <div id="daoInfo">
-                        <h2>Created DAO Information</h2>
-                        <p><strong>DAO Name:</strong> <span id="daoNameInfo"></span></p>
-                        <p><strong>Premium Amount:</strong> <span id="premiumAmountInfo"></span></p>
-                        <p><strong>Claim Threshold:</strong> <span id="claimThresholdInfo"></span></p>
-                    </div>
+                        <div class="daoCard">
+                            <h2>Created DAO</h2>
+                            <p><strong>DAO Name:</strong> <span id="daoNameInfo"></span></p>
+                        </div>
+                        <div class="daoCard">
+                            <p><strong>Premium Amount:</strong> <span id="premiumAmountInfo"></span></p>
+                        </div>
+                        <div class="daoCard">
+                            <p><strong>Claim Threshold:</strong> <span id="claimThresholdInfo"></span></p>
+                        </div>
+                        </div>             
                 </section>
            
                     <div class="card-footer border-0 py-5">
@@ -991,18 +997,17 @@
   </script>
  </section>
  <section>
-    <div id="daoInfo">
-        <div class="daoCard">
-            <h2>Created DAO </h2>
-            <p><strong>DAO Name:</strong> <span id="daoNameInfo"></span></p>
-        </div>
-        <div class="daoCard">
-            <p><strong>Premium Amount:</strong> <span id="premiumAmountInfo"></span></p>
-        </div>
-        <div class="daoCard">
-            <p><strong>Claim Threshold:</strong> <span id="claimThresholdInfo"></span></p>
-        </div>
+
+    <!-- Pop-up form for creating a DAO -->
+    <div id="daoPopup" style="display: none;">
+        <!-- Add your form inputs and buttons here -->
+        <input type="text" id="daoName" placeholder="DAO Name">
+        <input type="text" id="premiumAmount" placeholder="Premium Amount (Ether)">
+        <input type="text" id="claimThreshold" placeholder="Claim Threshold (Ether)">
+        <button id="submitDAO">Create DAO</button>
     </div>
+
+
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
             if (window.ethereum) {
