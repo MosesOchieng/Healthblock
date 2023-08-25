@@ -8,8 +8,6 @@ contract SpruceID {
     // Event to notify when a user's identity is verified
     event IdentityVerified(address indexed user);
 
-    constructor() {}
-
     // Function for users to undergo identity verification by creating a Spruce ID
     function createSpruceID() external {
         // Implement your identity verification logic here
@@ -25,3 +23,4 @@ contract SpruceID {
         emit IdentityVerified(msg.sender);
     }
 }
+

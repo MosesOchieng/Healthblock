@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Dashboard</title>
   <link rel="stylesheet" href="./style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.5/web3.min.js"></script>
 <style>
 /* Global Variables */
 :root {
@@ -418,11 +419,11 @@
                                 <div class="row">
                                     <div class="col">
                                         <span class="h6 font-semibold text-muted text-sm d-block mb-2">Claim Insurance</span>
-                                        <span class="h3 font-bold mb-0"></span>
+                                        <span class="h3 font-bold mb-0" id="claimedAmount"></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
-                                            <i class="bi bi-minecart-loaded"></i>
+                                            <i class="bi bi-minecart-loaded" id="claimStatus"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -809,36 +810,37 @@
         
     </section>
 <section>
-    <div class="popup1" id="claimPopup">
+    <div class="popup1" id="claimPopup" style="display: none;">
         <h2>Claim Submission</h2>
         <label for="claimAmount">Claim Amount:</label>
         <input type="number" id="claimAmount" step="0.01" placeholder="Enter claim amount">
         <button id="submitClaim">Submit</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            if (window.ethereum) {
+                window.web3 = new Web3(ethereum);
+                try {
+                    await ethereum.request({ method: 'eth_requestAccounts' });
+                    initContracts();
+                } catch (error) {
+                    console.error("User denied account access");
+                }
+            } else if (window.web3) {
+                window.web3 = new Web3(web3.currentProvider);
+                initContracts();
+            } else {
+                console.error("No Ethereum browser extension detected");
+            }
+        });
+        
         async function initContracts() {
             try {
-                const insuranceContractAddress = "0xYourInsuranceContractAddress";
-                const insuranceContractAbi = [
-                    // ... Your InsuranceContract ABI ...
-                ];
-    
-                const claimsContractAddress = "0xYourClaimsContractAddress";
+                const claimsContractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138"; // Replace with your contract address
                 const claimsContractAbi = [
-                [
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_tokenAddress",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
+                    // ... Your ClaimsProcessingContract ABI ...
+                    [
 	{
 		"anonymous": false,
 		"inputs": [
@@ -862,7 +864,43 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "user",
+				"name": "_user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_policyAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_policyCoverage",
+				"type": "uint256"
+			}
+		],
+		"name": "setInsurancePolicy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_claimAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "submitClaim",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
 				"type": "address"
 			}
 		],
@@ -938,137 +976,62 @@
 		],
 		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			}
-		],
-		"name": "isClaimValidForUser",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_policyAmount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_policyCoverage",
-				"type": "uint256"
-			}
-		],
-		"name": "setInsurancePolicy",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_claimAmount",
-				"type": "uint256"
-			}
-		],
-		"name": "submitClaim",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "tokenAddress",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
 	}
 ]
-                    // ... Your ClaimsProcessingContract ABI ...
                 ];
-    
-                window.insuranceContract = new web3.eth.Contract(insuranceContractAbi, insuranceContractAddress);
+        
                 window.claimsContract = new web3.eth.Contract(claimsContractAbi, claimsContractAddress);
-    
-                setupClaimSubmission(); // Initialize claim submission logic
+        
+                setupClaimSubmission();
+                displayClaimDetails(); // Fetch and display claim details
             } catch (error) {
                 console.error("Error initializing contracts:", error);
             }
         }
-    
-        document.addEventListener("DOMContentLoaded", async () => {
-            if (window.ethereum) {
-                window.web3 = new Web3(ethereum);
-                try {
-                    await ethereum.enable();
-                    initContracts();
-                } catch (error) {
-                    console.error("User denied account access");
-                }
-            } else if (window.web3) {
-                window.web3 = new Web3(web3.currentProvider);
-                initContracts();
-            } else {
-                console.error("No Ethereum browser extension detected");
-            }
-        });
-    
+        
         function setupClaimSubmission() {
             const showPopupButton = document.getElementById("showPopup");
             const claimPopup = document.getElementById("claimPopup");
             const submitClaimButton = document.getElementById("submitClaim");
             const claimAmountInput = document.getElementById("claimAmount");
-    
+        
             showPopupButton.addEventListener("click", () => {
                 claimPopup.style.display = "block";
             });
-    
+        
             submitClaimButton.addEventListener("click", async () => {
-                const claimAmount = web3.utils.toWei(claimAmountInput.value, "ether");
-    
                 try {
                     const accounts = await web3.eth.getAccounts();
+                    const claimAmount = web3.utils.toWei(claimAmountInput.value, "ether");
+        
                     await claimsContract.methods.submitClaim(claimAmount).send({
                         from: accounts[0]
                     });
-    
+        
                     alert("Claim submitted successfully. Your claim will be reviewed.");
                     claimPopup.style.display = "none";
                     claimAmountInput.value = "";
+        
+                    displayClaimDetails(); // Update claim details after submission
                 } catch (error) {
                     console.error("Error submitting claim:", error);
                 }
             });
         }
+        
+        async function displayClaimDetails() {
+            const accounts = await web3.eth.getAccounts();
+            const user = accounts[0];
+        
+            const claimAmount = await claimsContract.methods.claimedAmount(user).call();
+            const isClaimPending = await claimsContract.methods.isClaimValidForUser(user).call();
+        
+            document.getElementById("claimedAmount").textContent = web3.utils.fromWei(claimAmount, "ether") + " Ether";
+            document.getElementById("claimStatus").textContent = isClaimPending ? "Pending" : "Active";
+        }
+        
+        
     </script>
-</section>
-
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.5/web3.min.js"></script>
   
  
 </body>
