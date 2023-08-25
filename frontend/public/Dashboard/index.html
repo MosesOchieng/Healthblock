@@ -1028,9 +1028,10 @@
         
         async function initContracts() {
             try {
-                const contractAddress = "0xf8e81D47203A594245E36C48e151709F0C19fBe8"; // Replace with your contract address
+                const contractAddress = "0xD7ACd2a9FD159E69Bb102A1ca21C9a3e3A5F771B"; // Replace with your contract address
                 const contractAbi = [
                     // ... Your CommunityInsurancePoolContract ABI ...
+                    // (Ensure the ABI is correctly copied)
                     [
 	{
 		"inputs": [],
@@ -1094,19 +1095,6 @@
 			}
 		],
 		"name": "createPolicy",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "policyId",
-				"type": "uint256"
-			}
-		],
-		"name": "makeClaim",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -1198,6 +1186,9 @@
         }
         
         async function displayDAOInfo() {
+            const daoNameInfo = document.getElementById("daoNameInfo");
+            const premiumAmountInfo = document.getElementById("premiumAmountInfo");
+            const claimThresholdInfo = document.getElementById("claimThresholdInfo");
             const daoInfoDiv = document.getElementById("daoInfo");
         
             // Fetch DAO information from the smart contract and update the displayed info
@@ -1205,12 +1196,13 @@
             const policyId = 0; // Replace with the actual policy ID
             const policy = await contract.methods.policies(policyId).call();
         
-            document.getElementById("daoNameInfo").textContent = policy.participants[0] || "N/A";
-            document.getElementById("premiumAmountInfo").textContent = web3.utils.fromWei(policy.premiumAmount, "ether") + " Ether";
-            document.getElementById("claimThresholdInfo").textContent = web3.utils.fromWei(policy.claimThreshold, "ether") + " Ether";
+            daoNameInfo.textContent = policy.participants[0] || "N/A";
+            premiumAmountInfo.textContent = web3.utils.fromWei(policy.premiumAmount, "ether") + " Ether";
+            claimThresholdInfo.textContent = web3.utils.fromWei(policy.claimThreshold, "ether") + " Ether";
         
             daoInfoDiv.style.display = "block"; // Display the updated DAO information
         }
+        
         
     </script>
  </section>
