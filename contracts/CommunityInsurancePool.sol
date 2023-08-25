@@ -2,7 +2,6 @@
 
 pragma solidity >=0.8.1 <0.9.0;
 
-
 contract CommunityInsurancePoolContract {
     // Struct to represent an insurance policy
     struct InsurancePolicy {
