@@ -2,7 +2,7 @@
 HealthChain: Decentralized Health Insurance Platform
 
 HealthChain is a decentralized health insurance platform that leverages blockchain technology to provide affordable and accessible insurance coverage to individuals in underserved regions of Africa and Asia. The platform combines microfinance, collateralized insurance for preventive care, digital identity authentication using Spruce ID, credit insurance through Union Credit Protocol, and Sort and C-Chai subnets to offer a comprehensive and inclusive solution for health insurance challenges in these regions.
-Table of Contents
+#Table of Contents
 
     Features
     Technologies
@@ -10,11 +10,11 @@ Table of Contents
     Usage
     Contributing
     License
-Project Explanation:
+#Project Explanation:
 
 HealthChain: Decentralized Health Insurance Platform
 
-HealthChain is a groundbreaking decentralized health insurance platform designed to address the health coverage challenges faced by underserved regions in Africa and Asia. By seamlessly integrating cutting-edge technologies, HealthChain offers an inclusive and secure solution that transforms the health insurance landscape.
+By seamlessly integrating cutting-edge technologies, HealthChain offers an inclusive and secure solution that transforms the health insurance landscape.
 
     Microfinance Insurance: HealthChain pioneers microfinance-based insurance, empowering users to subscribe to insurance packages that align with their unique needs and financial capacity.
 
@@ -32,7 +32,7 @@ HealthChain is a groundbreaking decentralized health insurance platform designed
 
 By converging microfinance, preventive care incentives, digital identity, credit insurance, blockchain technology, and digital payments, HealthChain stands as a beacon of hope in the quest for equitable and accessible health insurance for all.
 
-Features
+#Features
 
     Microfinance Insurance: HealthChain enables microfinance-based insurance, allowing users to subscribe to insurance packages tailored to their needs.
     Collateralized Preventive Care: The platform offers collateralized insurance for preventive care, encouraging users to maintain a healthier lifestyle.
@@ -41,7 +41,7 @@ Features
     Blockchain Technology: The platform leverages blockchain technology to ensure transparency, immutability, and secure transactions.
     Payment with Digital Currencies: Users can pay premiums using digital currencies, promoting financial inclusion.
 
-Technologies
+#Technologies
 
     Ethereum Smart Contracts
     Solidity
@@ -53,7 +53,7 @@ Technologies
     ENS naming systems
     Sort blockchain
 
-Getting Started
+#Getting Started
 
 To run the HealthChain project locally, follow these steps:
 
@@ -64,12 +64,13 @@ To run the HealthChain project locally, follow these steps:
     Update the ABI and contract addresses in the JavaScript files.
     Start a local server to run the HTML files.
 
-Usage
+#Usage
 
     Updating Credit Score: Use the "Update Credit Score" feature to update a user's credit score. Enter the user's address and the new credit score, then click "Update Credit Score".
 
     Checking Creditworthiness: Use the "Check Creditworthiness" feature to check a user's creditworthiness. Enter the user's address, requested amount, income, and employment status, then click "Check Creditworthiness". The result will indicate whether the user is creditworthy.
-Project Structure Explanation:
+
+#Project Structure Explanation:
 
     contracts/: This directory contains your Solidity smart contracts. Each contract has its own .sol file. In HealthChain, you might have contracts like InsuranceContract.sol, UnionCreditProtocol.sol, and more.
 
@@ -86,6 +87,9 @@ Project Structure Explanation:
     README.md: The README file for your project, containing information about the project, how to set it up, how to use it, and more.
 
     LICENSE: The license file for your project. In this example, it's the GNU General Public License v3.0.
+
+
+    #Structure
 
     healthchain/
 │
@@ -114,7 +118,7 @@ Project Structure Explanation:
 └── LICENSE
 
 
-Contributing
+#Contributing
 
 Contributions to HealthChain are welcome! If you have suggestions, bug reports, or feature requests, please open an issue on GitHub. Feel free to fork this repository and submit pull requests.
 License
