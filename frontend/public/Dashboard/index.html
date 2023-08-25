@@ -817,30 +817,30 @@
         <button id="submitClaim">Submit</button>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            if (window.ethereum) {
-                window.web3 = new Web3(ethereum);
-                try {
-                    await ethereum.request({ method: 'eth_requestAccounts' });
-                    initContracts();
-                } catch (error) {
-                    console.error("User denied account access");
-                }
-            } else if (window.web3) {
-                window.web3 = new Web3(web3.currentProvider);
-                initContracts();
-            } else {
-                console.error("No Ethereum browser extension detected");
-            }
-        });
-        
-        async function initContracts() {
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        if (window.ethereum) {
+            window.web3 = new Web3(ethereum);
             try {
-                const claimsContractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138"; // Replace with your contract address
-                const claimsContractAbi = [
-                    // ... Your ClaimsProcessingContract ABI ...
-                    [
+                await ethereum.request({ method: 'eth_requestAccounts' });
+                initContracts();
+            } catch (error) {
+                console.error("User denied account access");
+            }
+        } else if (window.web3) {
+            window.web3 = new Web3(web3.currentProvider);
+            initContracts();
+        } else {
+            console.error("No Ethereum browser extension detected");
+        }
+    });
+    
+    async function initContracts() {
+        try {
+            const claimsContractAddress = "0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8"; // Replace with your contract address
+            const claimsContractAbi = [
+                // ... Your ClaimsProcessingContract ABI ...
+                [
 	{
 		"anonymous": false,
 		"inputs": [
@@ -866,34 +866,17 @@
 				"internalType": "address",
 				"name": "_user",
 				"type": "address"
-			},
+			}
+		],
+		"name": "getClaimedAmount",
+		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "_policyAmount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_policyCoverage",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "setInsurancePolicy",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_claimAmount",
-				"type": "uint256"
-			}
-		],
-		"name": "submitClaim",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -914,6 +897,25 @@
 			{
 				"internalType": "uint256",
 				"name": "policyCoverage",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "insuranceClaimAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
 				"type": "uint256"
 			}
 		],
@@ -962,6 +964,25 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "isClaimPending",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
@@ -976,63 +997,97 @@
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_policyAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_policyCoverage",
+				"type": "uint256"
+			}
+		],
+		"name": "setInsurancePolicy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_claimAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "submitClaim",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ]
-                ];
-        
-                window.claimsContract = new web3.eth.Contract(claimsContractAbi, claimsContractAddress);
-        
-                setupClaimSubmission();
-                displayClaimDetails(); // Fetch and display claim details
+            ];
+    
+            window.claimsContract = new web3.eth.Contract(claimsContractAbi, claimsContractAddress);
+    
+            setupClaimSubmission();
+            displayClaimDetails(); // Fetch and display claim details
+        } catch (error) {
+            console.error("Error initializing contracts:", error);
+        }
+    }
+    
+    function setupClaimSubmission() {
+        const showPopupButton = document.getElementById("showPopup");
+        const claimPopup = document.getElementById("claimPopup");
+        const submitClaimButton = document.getElementById("submitClaim");
+        const claimAmountInput = document.getElementById("claimAmount");
+    
+        showPopupButton.addEventListener("click", () => {
+            claimPopup.style.display = "block";
+        });
+    
+        submitClaimButton.addEventListener("click", async () => {
+            try {
+                const accounts = await web3.eth.getAccounts();
+                const claimAmount = web3.utils.toWei(claimAmountInput.value, "ether");
+    
+                await claimsContract.methods.submitClaim(claimAmount).send({
+                    from: accounts[0]
+                });
+    
+                alert("Claim submitted successfully. Your claim will be reviewed.");
+                claimPopup.style.display = "none";
+                claimAmountInput.value = "";
+    
+                displayClaimDetails(); // Update claim details after submission
             } catch (error) {
-                console.error("Error initializing contracts:", error);
+                console.error("Error submitting claim:", error);
             }
-        }
-        
-        function setupClaimSubmission() {
-            const showPopupButton = document.getElementById("showPopup");
-            const claimPopup = document.getElementById("claimPopup");
-            const submitClaimButton = document.getElementById("submitClaim");
-            const claimAmountInput = document.getElementById("claimAmount");
-        
-            showPopupButton.addEventListener("click", () => {
-                claimPopup.style.display = "block";
-            });
-        
-            submitClaimButton.addEventListener("click", async () => {
-                try {
-                    const accounts = await web3.eth.getAccounts();
-                    const claimAmount = web3.utils.toWei(claimAmountInput.value, "ether");
-        
-                    await claimsContract.methods.submitClaim(claimAmount).send({
-                        from: accounts[0]
-                    });
-        
-                    alert("Claim submitted successfully. Your claim will be reviewed.");
-                    claimPopup.style.display = "none";
-                    claimAmountInput.value = "";
-        
-                    displayClaimDetails(); // Update claim details after submission
-                } catch (error) {
-                    console.error("Error submitting claim:", error);
-                }
-            });
-        }
-        
-        async function displayClaimDetails() {
-            const accounts = await web3.eth.getAccounts();
-            const user = accounts[0];
-        
-            const claimAmount = await claimsContract.methods.claimedAmount(user).call();
-            const isClaimPending = await claimsContract.methods.isClaimValidForUser(user).call();
-        
-            document.getElementById("claimedAmount").textContent = web3.utils.fromWei(claimAmount, "ether") + " Ether";
-            document.getElementById("claimStatus").textContent = isClaimPending ? "Pending" : "Active";
-        }
-        
-        
-    </script>
-  
+        });
+    }
+    
+    async function displayClaimDetails() {
+        const accounts = await web3.eth.getAccounts();
+        const user = accounts[0];
+    
+        const claimedAmount = await claimsContract.methods.getClaimedAmount(user).call();
+        const isClaimPending = await claimsContract.methods.isClaimPending(user).call();
+    
+        document.getElementById("claimedAmount").textContent = web3.utils.fromWei(claimedAmount, "ether") + " Ether";
+        document.getElementById("claimStatus").textContent = isClaimPending ? "Pending" : "Active";
+    }
+    
+  </script>
  
 </body>
 </html>

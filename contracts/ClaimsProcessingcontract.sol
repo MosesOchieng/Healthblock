@@ -10,6 +10,9 @@ contract ClaimsProcessingContract {
     mapping(address => uint256) public insurancePolicyAmount;
     mapping(address => uint256) public insurancePolicyCoverage;
 
+    // Mapping to store the claimed amount
+    mapping(address => uint256) public insuranceClaimAmount;
+
     // Event to notify when a claim is processed and payout is initiated
     event ClaimProcessed(address indexed user, uint256 payoutAmount);
 
@@ -25,6 +28,7 @@ contract ClaimsProcessingContract {
         require(!isClaimValid[msg.sender], "Claim has already been submitted");
 
         isClaimValid[msg.sender] = true;
+        insuranceClaimAmount[msg.sender] = _claimAmount; // Store the claimed amount
 
         uint256 payoutAmount = calculatePayoutAmount(_claimAmount);
 
@@ -47,5 +51,13 @@ contract ClaimsProcessingContract {
 
     function getInsurancePolicy(address _user) external view returns (uint256 policyAmount, uint256 policyCoverage) {
         return (insurancePolicyAmount[_user], insurancePolicyCoverage[_user]);
+    }
+
+    function getClaimedAmount(address _user) external view returns (uint256) {
+        return insuranceClaimAmount[_user];
+    }
+
+    function isClaimPending(address _user) external view returns (bool) {
+        return !isClaimValid[_user];
     }
 }
