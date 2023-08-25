@@ -30,42 +30,76 @@
                 } catch (error) {
                     console.error("User denied account access");
                 }
-            } else if (window.web3) {
-                window.web3 = new Web3(web3.currentProvider);
-                initContracts();
             } else {
                 console.error("No Ethereum browser extension detected");
             }
-            
-            // Display existing ENS name on page load if available
-            const accounts = await web3.eth.getAccounts();
-            await displayENSName(accounts[0]);
         });
         
         async function initContracts() {
             try {
-                // Initialize your contracts and interactions here
+                const ensRegistrationContractAddress = "0x7EF2e0048f5bAeDe046f6BF797943daF4ED8CB47"; // Replace with your contract address
+                const ensRegistrationContractAbi = [
+                    // ... Your ENSRegistration ABI ...
+                    [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "ensNames",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_ensName",
+				"type": "string"
+			}
+		],
+		"name": "registerENSName",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+                ];
+        
+                window.ensRegistrationContract = new web3.eth.Contract(
+                    ensRegistrationContractAbi,
+                    ensRegistrationContractAddress
+                );
+        
+                displayENSName();
             } catch (error) {
                 console.error("Error initializing contracts:", error);
             }
         }
         
-        async function displayENSName(address) {
+        async function displayENSName() {
             try {
-                const ensName = await getENSName(address);
-                document.getElementById("ensName").textContent = ensName || "Not Set";
+                const accounts = await web3.eth.getAccounts();
+                const ensName = await ensRegistrationContract.methods.ensNames(accounts[0]).call();
+        
+                if (ensName && ensName !== "") {
+                    document.getElementById("ensName").textContent = ensName;
+                } else {
+                    document.getElementById("ensName").textContent = "No ENS name registered";
+                }
             } catch (error) {
                 console.error("Error displaying ENS name:", error);
             }
-        }
-        
-        async function getENSName(address) {
-            const reverseRegistrarAddress = "0x0000000000000000000000000000000000000064"; // Replace with actual ReverseRegistrar contract address
-            const reverseRegistrarAbi = [/* ReverseRegistrar ABI */]; // Replace with actual ABI
-            
-            const reverseRegistrar = new web3.eth.Contract(reverseRegistrarAbi, reverseRegistrarAddress);
-            const ensName = await reverseRegistrar.methods.name(address).call();
-            return ensName;
         }
         
     </script>
